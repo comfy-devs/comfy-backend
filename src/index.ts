@@ -35,7 +35,8 @@ class Server {
 
     start() {
         this.config.instances.forEach((instanceConfig: ServerInstanceConfig) => {
-            const worker: Worker = TSWorker("../instance/instance.ts", {
+            const workerLocation = process.platform === "win32" ? "../instance/instance.ts" : "instance/instance.ts";
+            const worker: Worker = TSWorker(workerLocation, {
                 workerData: {
                     config: instanceConfig,
                 },
