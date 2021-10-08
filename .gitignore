@@ -1,0 +1,6 @@
+/* Configurations */
+build/**/*
+
+/* Node non-sense */
+node_modules/**/*
+
