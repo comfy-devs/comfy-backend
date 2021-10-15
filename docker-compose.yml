@@ -1,0 +1,32 @@
+services:
+  foxxy-mysql:
+    container_name: foxxy-mysql
+    image: mysql
+    ports:
+      - "3306"
+    volumes:
+      - foxxy-mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "foxxy-db"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      timeout: 10s
+      retries: 10
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+  foxxy-backend:
+    container_name: foxxy-backend
+    image: foxxy-backend
+    ports:
+      - "8081:8081"
+      - "8082:8082"
+    volumes:
+      - foxxy-backend:/usr/src/app
+    depends_on:
+      foxxy-mysql:
+        condition: service_healthy
+    build: .
+volumes:
+  foxxy-mysql:
+    external: true
+  foxxy-backend:
