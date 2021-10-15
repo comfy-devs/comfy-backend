@@ -1,34 +1,49 @@
 /* Types */
-import { Status } from "../../ts/types";
-import InstanceFeature from "../feature";
+import { FeatureAPIOptions, RouteType, Status } from "../../ts/types";
 
 /* Node Imports */
 import express from "express";
 import cors from "cors";
 import { Server } from "http";
 
-class InstanceAPIFeature extends InstanceFeature {
+/* Local Imports */
+import Feature from "../feature";
+
+class FeatureAPI extends Feature {
+    options: FeatureAPIOptions;
+    app: express.Express | undefined;
+    appServer: Server | undefined;
+
+    constructor(options: FeatureAPIOptions) {
+        super(options);
+        this.options = options;
+    }
+
     async start(): Promise<void> {
-        const app: express.Express = express();
+        this.app = express();
         const corsCallback = {
             origin: (origin: any, callback: any) => {
-                callback(null, this.config.options.allowedOrigins.indexOf(origin) !== -1);
+                callback(null, this.options.allowedOrigins.indexOf(origin) !== -1);
             },
             credentials: true,
         };
-        app.use(cors(corsCallback));
+        this.app.use(cors(corsCallback));
 
-        const appServer: Server = app.listen(this.config.options.port);
+        this.appServer = this.app.listen(this.options.port);
         await new Promise((resolve) => {
-            appServer.once("error", (e) => {
+            if (this.appServer === undefined) {
+                resolve(0);
+                return;
+            }
+            this.appServer.once("error", (e) => {
                 this.state = { status: Status.ERROR, message: e.message };
                 resolve(0);
             });
-            appServer.once("listening", () => {
+            this.appServer.once("listening", () => {
                 resolve(0);
             });
         });
     }
 }
 
-export default InstanceAPIFeature;
+export default FeatureAPI;

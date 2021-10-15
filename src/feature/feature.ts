@@ -1,18 +1,20 @@
 /* Types */
-import { InstanceFeatureConfig, StateDescriptor, Status } from "../ts/types";
+import { FeatureOptions, StateDescriptor, Status } from "../ts/types";
 
-abstract class InstanceFeature {
+abstract class Feature {
     id: string;
+    name: string;
+    type: string;
     state: StateDescriptor;
-    config: InstanceFeatureConfig;
 
-    constructor(config: InstanceFeatureConfig) {
-        this.id = config.id;
+    constructor(options: FeatureOptions) {
+        this.id = options.id;
+        this.name = options.name;
+        this.type = options.type;
         this.state = { status: Status.WAITING, message: "WAITING" };
-        this.config = config;
     }
 
     abstract start(): Promise<void>;
 }
 
-export default InstanceFeature;
+export default Feature;

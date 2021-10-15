@@ -1,5 +1,5 @@
 /* Types */
-import { ServerConfig, ServerInstanceConfig } from "./ts/types";
+import { Config, InstanceOptions } from "./ts/types";
 
 /* Node Imports */
 import * as fs from "fs";
@@ -8,7 +8,7 @@ import TSWorker from "ts-worker";
 import { existsSync } from "fs";
 
 class Server {
-    config: ServerConfig;
+    config: Config;
 
     constructor() {
         if (!existsSync("build/configs/default.json")) {
@@ -34,11 +34,11 @@ class Server {
     }
 
     start() {
-        this.config.instances.forEach((instanceConfig: ServerInstanceConfig) => {
+        this.config.instances.forEach((instanceOptions: InstanceOptions) => {
             const workerLocation = process.platform === "win32" ? "../instance/instance.ts" : "instance/instance.ts";
             const worker: Worker = TSWorker(workerLocation, {
                 workerData: {
-                    config: instanceConfig,
+                    options: instanceOptions,
                 },
             });
         });

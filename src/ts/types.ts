@@ -1,14 +1,14 @@
 /* Master Server */
-export type ServerConfig = {
-    instances: ServerInstanceConfig[];
+export type Config = {
+    instances: InstanceOptions[];
 };
 
 /* Worker Server */
-export type ServerInstanceConfig = {
+export type InstanceOptions = {
     id: string;
     name: string;
-    features: InstanceFeatureConfig[];
-    databases: InstanceDatabaseConfig[];
+    features: any[];
+    databases: any[];
 };
 
 /* Features */
@@ -17,17 +17,25 @@ export enum FeatureType {
     API = "API",
 }
 
-export type InstanceFeatureConfig = {
+export type FeatureOptions = {
     id: string;
     name: string;
     type: FeatureType;
-    options: FeatureStaticOptions;
 };
 
-export type FeatureStaticOptions = {
+export type FeatureStaticOptions = FeatureOptions & {
+    type: FeatureType.STATIC;
+
     port: number;
     allowedOrigins: string[];
     root: string;
+};
+
+export type FeatureAPIOptions = FeatureOptions & {
+    type: FeatureType.API;
+
+    port: number;
+    allowedOrigins: string[];
 };
 
 /* Databases */
@@ -35,15 +43,15 @@ export enum DatabaseType {
     MYSQL = "MYSQL",
 }
 
-export type InstanceDatabaseConfig = {
+export type DatabaseOptions = {
     id: string;
     name: string;
     type: DatabaseType;
-    options: DatabaseMySqlOptions;
 };
 
-/* Databases (MySQL) */
-export type DatabaseMySqlOptions = {
+export type DatabaseMySQLOptions = DatabaseOptions & {
+    type: DatabaseType.MYSQL;
+
     host: string;
     port: number;
     user: string;
@@ -52,7 +60,7 @@ export type DatabaseMySqlOptions = {
     structure: DatabaseMySQLStructure;
 };
 
-export type DatabaseMySQLStructure = {
+export type DatabaseMySQLStructure = DatabaseOptions & {
     tables: DatabaseMySQLTable[];
 };
 
@@ -66,7 +74,6 @@ export type DatabaseMySQLColumn = {
     type: string;
 };
 
-/* Databases (Other) */
 export type DatabaseFetchOptions = {
     id: string;
     table: string;

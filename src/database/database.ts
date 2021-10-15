@@ -1,15 +1,17 @@
 /* Types */
-import { InstanceDatabaseConfig, StateDescriptor, Status, DatabaseFetchOptions } from "../ts/types";
+import { DatabaseOptions, StateDescriptor, Status, DatabaseFetchOptions } from "../ts/types";
 
-abstract class InstanceDatabase {
+abstract class Database {
     id: string;
+    name: string;
+    type: string;
     state: StateDescriptor;
-    config: InstanceDatabaseConfig;
 
-    constructor(config: InstanceDatabaseConfig) {
-        this.id = config.id;
+    constructor(options: DatabaseOptions) {
+        this.id = options.id;
+        this.name = options.name;
+        this.type = options.type;
         this.state = { status: Status.WAITING, message: "WAITING" };
-        this.config = config;
     }
 
     abstract start(): Promise<void>;
@@ -17,4 +19,4 @@ abstract class InstanceDatabase {
     abstract fetch(options: DatabaseFetchOptions): Promise<any>;
 }
 
-export default InstanceDatabase;
+export default Database;

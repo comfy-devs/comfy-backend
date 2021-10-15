@@ -1,33 +1,45 @@
 /* Types */
-import { Status, DatabaseFetchOptions } from "../../ts/types";
-import InstanceDatabase from "../database";
+import { DatabaseMySQLOptions, DatabaseFetchOptions, Status } from "../../ts/types";
 
 /* Node Imports */
-import { createConnection } from "mysql2/promise";
+import { createConnection, Connection } from "mysql2/promise";
 
-class InstanceMySQLDatabase extends InstanceDatabase {
-    connection: any;
+/* Local Imports */
+import Database from "../database";
+
+class DatabaseMySQL extends Database {
+    options: DatabaseMySQLOptions;
+    connection: void | Connection | undefined;
+
+    constructor(options: DatabaseMySQLOptions) {
+        super(options);
+        this.options = options;
+    }
 
     async start(): Promise<void> {
         this.connection = await createConnection({
-            host: this.config.options.host,
-            user: this.config.options.user,
-            password: this.config.options.password,
-            database: this.config.options.database,
+            host: this.options.host,
+            user: this.options.user,
+            password: this.options.password,
+            database: this.options.database,
+            charset: "utf8mb4",
         }).catch((e) => {
             this.state = { status: Status.ERROR, message: e.message };
         });
     }
 
     async validate(): Promise<void> {
-        for (const table of Array.from(this.config.options.structure.tables.values())) {
+        if (this.connection === undefined) {
+            return;
+        }
+        for (const table of this.options.structure.tables) {
             await this.connection.execute(`CREATE TABLE IF NOT EXISTS ${table.name} (
                 id VARCHAR(32),
                 PRIMARY KEY (id)
             )`);
 
-            for (const column of Array.from(table.columns.values())) {
-                const exists = await this.connection.execute(`SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${table.name}' AND COLUMN_NAME = '${column.name}'`);
+            for (const column of table.columns) {
+                const exists: any[] = await this.connection.execute(`SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${table.name}' AND COLUMN_NAME = '${column.name}'`);
                 if (exists[0][0]["COUNT(*)"] < 1) {
                     await this.connection.execute(`ALTER TABLE ${table.name} ADD COLUMN ${column.name} ${column.type}`);
                 }
@@ -36,8 +48,11 @@ class InstanceMySQLDatabase extends InstanceDatabase {
     }
 
     async fetch(options: DatabaseFetchOptions): Promise<any> {
+        if (this.connection === undefined) {
+            return;
+        }
         return await this.connection.execute(`SELECT * FROM ${options.table} WHERE id = "${options.id}"`);
     }
 }
 
-export default InstanceMySQLDatabase;
+export default DatabaseMySQL;
