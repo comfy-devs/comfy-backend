@@ -36,6 +36,21 @@ export type FeatureAPIOptions = FeatureOptions & {
 
     port: number;
     allowedOrigins: string[];
+    routes: RouteOptions[];
+};
+
+/* Routes */
+export enum RouteType {
+    FETCH = "FETCH",
+}
+
+export type RouteOptions = {
+    path: string;
+    type: RouteType;
+};
+
+export type RouteFetchOptions = RouteOptions & {
+    type: RouteType.FETCH;
 };
 
 /* Databases */

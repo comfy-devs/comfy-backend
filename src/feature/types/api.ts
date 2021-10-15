@@ -8,15 +8,20 @@ import { Server } from "http";
 
 /* Local Imports */
 import Feature from "../feature";
+import APIRoute from "../../route/route";
+import RouteFetch from "../../route/types/fetch";
 
 class FeatureAPI extends Feature {
     options: FeatureAPIOptions;
     app: express.Express | undefined;
     appServer: Server | undefined;
+    routeContainer: Map<string, APIRoute>;
 
     constructor(options: FeatureAPIOptions) {
         super(options);
         this.options = options;
+
+        this.routeContainer = new Map();
     }
 
     async start(): Promise<void> {
@@ -28,6 +33,20 @@ class FeatureAPI extends Feature {
             credentials: true,
         };
         this.app.use(cors(corsCallback));
+
+        for (const routeOptions of this.options.routes) {
+            let route: APIRoute | undefined;
+            switch (routeOptions.type) {
+                case RouteType.FETCH:
+                    route = new RouteFetch(routeOptions);
+                    break;
+            }
+
+            if (route === undefined) {
+                continue;
+            }
+            this.routeContainer.set(route.path, route);
+        }
 
         this.appServer = this.app.listen(this.options.port);
         await new Promise((resolve) => {
