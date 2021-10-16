@@ -1,13 +1,18 @@
 /* Types */
 import { FeatureOptions, StateDescriptor, Status } from "../ts/types";
 
+/* Local Imports */
+import Instance from "../instance/instance";
+
 abstract class Feature {
+    parent: Instance;
     id: string;
     name: string;
     type: string;
     state: StateDescriptor;
 
-    constructor(options: FeatureOptions) {
+    constructor(parent: Instance, options: FeatureOptions) {
+        this.parent = parent;
         this.id = options.id;
         this.name = options.name;
         this.type = options.type;

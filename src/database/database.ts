@@ -1,13 +1,18 @@
 /* Types */
 import { DatabaseOptions, StateDescriptor, Status, DatabaseFetchOptions } from "../ts/types";
 
+/* Local Imports */
+import Instance from "../instance/instance";
+
 abstract class Database {
+    parent: Instance;
     id: string;
     name: string;
     type: string;
     state: StateDescriptor;
 
-    constructor(options: DatabaseOptions) {
+    constructor(parent: Instance, options: DatabaseOptions) {
+        this.parent = parent;
         this.id = options.id;
         this.name = options.name;
         this.type = options.type;

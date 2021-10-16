@@ -36,7 +36,7 @@ export type FeatureAPIOptions = FeatureOptions & {
 
     port: number;
     allowedOrigins: string[];
-    routes: RouteOptions[];
+    routes: any[];
 };
 
 /* Routes */
@@ -51,6 +51,8 @@ export type RouteOptions = {
 
 export type RouteFetchOptions = RouteOptions & {
     type: RouteType.FETCH;
+
+    table: string;
 };
 
 /* Databases */

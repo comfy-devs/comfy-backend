@@ -29,12 +29,12 @@ class Instance {
         this.featureContainer = new Map();
     }
 
-    load() {
-        for (const databaseOptions of this.options.databases) {
+    load(): void {
+        for (const options of this.options.databases) {
             let database: Database | undefined;
-            switch (databaseOptions.type) {
+            switch (options.type) {
                 case DatabaseType.MYSQL:
-                    database = new DatabaseMySQL(databaseOptions);
+                    database = new DatabaseMySQL(this, options);
                     break;
             }
 
@@ -44,15 +44,15 @@ class Instance {
             this.databaseContainer.set(database.id, database);
         }
 
-        for (const featureOptions of this.options.features) {
+        for (const options of this.options.features) {
             let feature: Feature | undefined;
-            switch (featureOptions.type) {
+            switch (options.type) {
                 case FeatureType.STATIC:
-                    feature = new FeatureStatic(featureOptions);
+                    feature = new FeatureStatic(this, options);
                     break;
 
                 case FeatureType.API:
-                    feature = new FeatureAPI(featureOptions);
+                    feature = new FeatureAPI(this, options);
                     break;
             }
 
@@ -105,11 +105,13 @@ class Instance {
         console.log(`[  ${green("OK")}  ] Instance ${bold(yellow(this.options.name))} started!`);
     }
 
-    fail(errorStatus: StateDescriptor) {
+    fail(errorStatus: StateDescriptor): void {
         this.state = { status: Status.ERROR, message: errorStatus.message };
         console.log(`[  ${red("ERROR")}  ] Instance ${bold(yellow(this.options.name))} failed to start!`);
     }
 }
+
+export default Instance;
 
 const instance = new Instance(workerData.options);
 instance.load();

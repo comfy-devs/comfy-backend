@@ -6,13 +6,14 @@ import { createConnection, Connection } from "mysql2/promise";
 
 /* Local Imports */
 import Database from "../database";
+import Instance from "../../instance/instance";
 
 class DatabaseMySQL extends Database {
     options: DatabaseMySQLOptions;
     connection: void | Connection | undefined;
 
-    constructor(options: DatabaseMySQLOptions) {
-        super(options);
+    constructor(parent: Instance, options: DatabaseMySQLOptions) {
+        super(parent, options);
         this.options = options;
     }
 
@@ -39,7 +40,7 @@ class DatabaseMySQL extends Database {
             )`);
 
             for (const column of table.columns) {
-                const exists: any[] = await this.connection.execute(`SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '${table.name}' AND COLUMN_NAME = '${column.name}'`);
+                const exists: any[] = await this.connection.execute(`SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ? AND COLUMN_NAME = ?`, [table.name, column.name]);
                 if (exists[0][0]["COUNT(*)"] < 1) {
                     await this.connection.execute(`ALTER TABLE ${table.name} ADD COLUMN ${column.name} ${column.type}`);
                 }
@@ -51,7 +52,8 @@ class DatabaseMySQL extends Database {
         if (this.connection === undefined) {
             return;
         }
-        return await this.connection.execute(`SELECT * FROM ${options.table} WHERE id = "${options.id}"`);
+        const items: any[] = await this.connection.execute(`SELECT * FROM ${options.table} WHERE id = ?`, [options.id]);
+        return items[0][0];
     }
 }
 

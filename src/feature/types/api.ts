@@ -8,6 +8,7 @@ import { Server } from "http";
 
 /* Local Imports */
 import Feature from "../feature";
+import Instance from "../../instance/instance";
 import APIRoute from "../../route/route";
 import RouteFetch from "../../route/types/fetch";
 
@@ -17,8 +18,8 @@ class FeatureAPI extends Feature {
     appServer: Server | undefined;
     routeContainer: Map<string, APIRoute>;
 
-    constructor(options: FeatureAPIOptions) {
-        super(options);
+    constructor(parent: Instance, options: FeatureAPIOptions) {
+        super(parent, options);
         this.options = options;
 
         this.routeContainer = new Map();
@@ -34,11 +35,11 @@ class FeatureAPI extends Feature {
         };
         this.app.use(cors(corsCallback));
 
-        for (const routeOptions of this.options.routes) {
+        for (const options of this.options.routes) {
             let route: APIRoute | undefined;
-            switch (routeOptions.type) {
+            switch (options.type) {
                 case RouteType.FETCH:
-                    route = new RouteFetch(routeOptions);
+                    route = new RouteFetch(options);
                     break;
             }
 
@@ -46,6 +47,16 @@ class FeatureAPI extends Feature {
                 continue;
             }
             this.routeContainer.set(route.path, route);
+        }
+
+        for (const route of Array.from(this.routeContainer.values())) {
+            await route.hook(this);
+            if (route.state.status !== Status.WAITING) {
+                this.state = { status: Status.ERROR, message: `${route.path} - ${route.state.message}` };
+                return;
+            }
+
+            route.state = { status: Status.SUCCESS, message: "SUCCESS" };
         }
 
         this.appServer = this.app.listen(this.options.port);

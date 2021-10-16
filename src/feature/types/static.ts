@@ -9,14 +9,15 @@ import { existsSync } from "fs";
 
 /* Local Imports */
 import Feature from "../feature";
+import Instance from "../../instance/instance";
 
 class FeatureStatic extends Feature {
     options: FeatureStaticOptions;
     app: express.Express | undefined;
     appServer: Server | undefined;
 
-    constructor(options: FeatureStaticOptions) {
-        super(options);
+    constructor(parent: Instance, options: FeatureStaticOptions) {
+        super(parent, options);
         this.options = options;
     }
 
