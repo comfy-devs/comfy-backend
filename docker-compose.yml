@@ -26,6 +26,7 @@ services:
       foxxy-mysql:
         condition: service_healthy
     build: .
+    tty: yes
 volumes:
   foxxy-mysql:
     external: true
