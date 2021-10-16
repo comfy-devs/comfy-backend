@@ -11,7 +11,7 @@ services:
       MYSQL_DATABASE: "foxxy-db"
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
-      timeout: 10s
+      timeout: 5s
       retries: 10
     command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
   foxxy-backend:
