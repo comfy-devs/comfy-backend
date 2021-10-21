@@ -58,6 +58,7 @@ export type RouteFetchOptions = RouteOptions & {
 /* Databases */
 export enum DatabaseType {
     MYSQL = "MYSQL",
+    REDIS = "REDIS",
 }
 
 export type DatabaseOptions = {
@@ -66,6 +67,12 @@ export type DatabaseOptions = {
     type: DatabaseType;
 };
 
+export type DatabaseFetchOptions = {
+    source: string;
+    selectors: Record<string, string>;
+};
+
+/* Database (MySQL) */
 export type DatabaseMySQLOptions = DatabaseOptions & {
     type: DatabaseType.MYSQL;
 
@@ -91,9 +98,12 @@ export type DatabaseMySQLColumn = {
     type: string;
 };
 
-export type DatabaseFetchOptions = {
-    id: string;
-    table: string;
+/* Database (Redis) */
+export type DatabaseRedisOptions = DatabaseOptions & {
+    type: DatabaseType.REDIS;
+
+    host: string;
+    port: number;
 };
 
 /* Statuses */

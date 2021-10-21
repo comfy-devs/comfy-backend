@@ -1,5 +1,5 @@
 /* Types */
-import { RouteFetchOptions, DatabaseFetchOptions, Status } from "../../ts/types";
+import { RouteFetchOptions, DatabaseType, DatabaseFetchOptions, Status } from "../../ts/types";
 
 /* Local Imports */
 import Route from "../route";
@@ -18,14 +18,14 @@ class RouteFetch extends Route {
         if (feature.app === undefined) {
             return;
         }
-        if (feature.parent.databaseContainer.size === 0) {
+        if (Array.from(feature.parent.databaseContainer.values()).filter(e => { return e.type === DatabaseType.MYSQL; }).length === 0) {
             this.state = { status: Status.ERROR, message: "NO_DATABASE_FOUND" };
             return;
         }
 
-        const database: Database = Array.from(feature.parent.databaseContainer.values())[0];
+        const database: Database = Array.from(feature.parent.databaseContainer.values()).filter(e => { return e.type === DatabaseType.MYSQL; })[0];
         feature.app.get(this.path, async (req, res) => {
-            const options: DatabaseFetchOptions = { id: req.params["id"], table: this.options.table };
+            const options: DatabaseFetchOptions = { source: this.options.table, selectors: { id: req.params["id"] } };
             const item = await database.fetch(options);
             if (item === undefined) {
                 res.sendStatus(404);

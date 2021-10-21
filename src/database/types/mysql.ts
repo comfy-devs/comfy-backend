@@ -52,9 +52,24 @@ class DatabaseMySQL extends Database {
         if (this.connection === undefined) {
             return;
         }
-        const items: any[] = await this.connection.execute(`SELECT * FROM ${options.table} WHERE id = ?`, [options.id]);
+        const items: any[] = await this.connection.execute(`SELECT * FROM ${options.source}${this.selectorsToSyntax(options.selectors)}`, this.selectorsToData(options.selectors));
         return items[0][0];
     }
+
+    selectorsToSyntax(selectors: Record<string, string>): string {
+        const list = Object.keys(selectors);
+        if(list.length > 0) {
+            return ` WHERE${list.reduce((acc, curr) => { return acc + ` ${curr} = ?`; }), ""}`;
+        }
+
+        return "";
+    }
+
+    selectorsToData(selectors: Record<string, string>): string[] {
+        const list = Object.values(selectors);
+        return list;
+    }
+
 }
 
 export default DatabaseMySQL;

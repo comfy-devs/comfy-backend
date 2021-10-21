@@ -8,6 +8,7 @@ import { bold, green, red, yellow, gray } from "nanocolors";
 /* Local Imports */
 import Database from "../database/database";
 import DatabaseMySQL from "../database/types/mysql";
+import DatabaseRedis from "../database/types/redis";
 import Feature from "../feature/feature";
 import FeatureStatic from "../feature/types/static";
 import FeatureAPI from "../feature/types/api";
@@ -35,6 +36,10 @@ class Instance {
             switch (options.type) {
                 case DatabaseType.MYSQL:
                     database = new DatabaseMySQL(this, options);
+                    break;
+
+                case DatabaseType.REDIS:
+                    database = new DatabaseRedis(this, options);
                     break;
             }
 
