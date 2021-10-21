@@ -1,7 +1,7 @@
 services:
   foxxy-mysql:
     container_name: foxxy-mysql
-    image: mysql
+    image: mysql:latest
     ports:
       - "3306"
     volumes:
@@ -14,16 +14,29 @@ services:
       timeout: 5s
       retries: 10
     command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+  foxxy-redis:
+    container_name: foxxy-redis
+    image: redis:alpine
+    ports:
+      - "6379"
+    volumes:
+      - .docker/volumes/foxxy-redis:/usr/local/etc/redis
+      - foxxy-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli" ,"ping"]
+      timeout: 5s
+      retries: 10
+    command: ["/usr/local/etc/redis/redis.conf"]
   foxxy-backend:
     container_name: foxxy-backend
-    image: foxxy-backend
+    image: foxxy-backend:latest
     ports:
       - "8081:8081"
       - "8082:8082"
-    volumes:
-      - foxxy-backend:/usr/src/app
     depends_on:
       foxxy-mysql:
+        condition: service_healthy
+      foxxy-redis:
         condition: service_healthy
     build: 
       context: ./
@@ -32,4 +45,5 @@ services:
 volumes:
   foxxy-mysql:
     external: true
-  foxxy-backend:
+  foxxy-redis:
+    external: true
