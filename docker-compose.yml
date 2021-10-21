@@ -25,7 +25,9 @@ services:
     depends_on:
       foxxy-mysql:
         condition: service_healthy
-    build: .
+    build: 
+      context: ./
+      dockerfile: .docker/images/foxxy-backend/Dockerfile
     tty: yes
 volumes:
   foxxy-mysql:
