@@ -8,7 +8,7 @@ COPY package*.json ./
 RUN yarn --no-cache
 
 COPY . .
-RUN yarn typecheck
+RUN yarn run build
 RUN yarn remove $(cat package.json | jq -r '.devDependencies | keys | join(" ")')
 
 # State: run

@@ -1,7 +1,7 @@
 services:
   foxxy-mysql:
     container_name: foxxy-mysql
-    image: mysql:latest
+    image: mariadb:latest
     ports:
       - "3306"
     volumes:
@@ -9,6 +9,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: "foxxy-db"
+      MYSQL_ROOT_HOST: "%"
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
       timeout: 5s

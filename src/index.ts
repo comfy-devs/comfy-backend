@@ -4,18 +4,17 @@ import { Config, InstanceOptions } from "./ts/types";
 /* Node Imports */
 import * as fs from "fs";
 import { Worker } from "worker_threads";
-import TSWorker from "ts-worker";
 import { existsSync } from "fs";
 
 class Server {
     config: Config;
 
     constructor() {
-        if (!existsSync("build/configs/default.json")) {
+        if (!existsSync("configs/configs/default.json")) {
             throw new Error("The default config file is missing!");
         }
 
-        this.config = JSON.parse(fs.readFileSync("build/configs/default.json", "utf-8"));
+        this.config = JSON.parse(fs.readFileSync("configs/configs/default.json", "utf-8"));
     }
 
     load() {
@@ -35,8 +34,7 @@ class Server {
 
     start() {
         this.config.instances.forEach((instanceOptions: InstanceOptions) => {
-            const workerLocation = process.platform === "win32" ? "../instance/instance.ts" : "instance/instance.ts";
-            const worker: Worker = TSWorker(workerLocation, {
+            const worker: Worker = new Worker("./build/instance/instance.js", {
                 workerData: {
                     options: instanceOptions,
                 },
