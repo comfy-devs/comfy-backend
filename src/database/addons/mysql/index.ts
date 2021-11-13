@@ -1,12 +1,13 @@
 /* Types */
-import { DatabaseMySQLOptions, DatabaseFetchOptions, Status } from "../../ts/types";
+import { DatabaseFetchOptions, Status } from "../../../ts/base";
+import { DatabaseMySQLOptions } from "../../types";
 
 /* Node Imports */
 import { createConnection, Connection } from "mysql2/promise";
 
 /* Local Imports */
-import Database from "../database";
-import Instance from "../../instance/instance";
+import Database from "../..";
+import Instance from "../../../instance";
 
 class DatabaseMySQL extends Database {
     options: DatabaseMySQLOptions;
@@ -58,8 +59,13 @@ class DatabaseMySQL extends Database {
 
     selectorsToSyntax(selectors: Record<string, string>): string {
         const list = Object.keys(selectors);
-        if(list.length > 0) {
-            return ` WHERE${list.reduce((acc, curr) => { return acc + ` ${curr} = ?`; }), ""}`;
+        if (list.length > 0) {
+            return ` WHERE${
+                (list.reduce((acc, curr) => {
+                    return acc + ` ${curr} = ?`;
+                }),
+                "")
+            }`;
         }
 
         return "";
@@ -69,7 +75,6 @@ class DatabaseMySQL extends Database {
         const list = Object.values(selectors);
         return list;
     }
-
 }
 
 export default DatabaseMySQL;

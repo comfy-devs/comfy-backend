@@ -1,12 +1,13 @@
 /* Types */
-import { DatabaseRedisOptions, DatabaseFetchOptions, Status } from "../../ts/types";
+import { DatabaseFetchOptions, Status } from "../../../ts/base";
+import { DatabaseRedisOptions } from "../../types";
 
 /* Node Imports */
 import { createClient, RedisClient } from "redis";
 
 /* Local Imports */
-import Database from "../database";
-import Instance from "../../instance/instance";
+import Database from "../..";
+import Instance from "../../../instance";
 
 class DatabaseRedis extends Database {
     options: DatabaseRedisOptions;
@@ -36,15 +37,19 @@ class DatabaseRedis extends Database {
 
     async fetch(options: DatabaseFetchOptions): Promise<any> {
         const item: Record<string, string> = await new Promise((resolve, reject) => {
-            if (this.connection === undefined) { return; }
+            if (this.connection === undefined) {
+                return;
+            }
             this.connection.hgetall(options.source, (e, r) => {
-                if(e) { reject(e); return; }
+                if (e) {
+                    reject(e);
+                    return;
+                }
                 resolve(r);
             });
         });
         return item;
     }
-
 }
 
 export default DatabaseRedis;

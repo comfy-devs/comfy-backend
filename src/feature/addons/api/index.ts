@@ -1,39 +1,38 @@
 /* Types */
-import { FeatureAPIOptions, RouteType, Status } from "../../ts/types";
+import { Status } from "../../../ts/base";
+import { RouteType } from "../routes/types";
+import { FeatureAPIOptions } from "./types";
 
 /* Node Imports */
-import express from "express";
-import cors from "cors";
-import { Server } from "http";
+import * as fastify from "fastify";
 
 /* Local Imports */
-import Feature from "../feature";
-import Instance from "../../instance/instance";
-import APIRoute from "../../route/route";
-import RouteFetch from "../../route/types/fetch";
+import Feature from "../..";
+import Instance from "../../../instance";
+import APIRoute from "../routes";
+import RouteFetch from "../routes/extra/fetch";
+import { createFastifyInstance, startFastifyInstance } from "../../util";
 
 class FeatureAPI extends Feature {
     options: FeatureAPIOptions;
-    app: express.Express | undefined;
-    appServer: Server | undefined;
+    instance: fastify.FastifyInstance | null;
     routeContainer: Map<string, APIRoute>;
 
     constructor(parent: Instance, options: FeatureAPIOptions) {
         super(parent, options);
         this.options = options;
+        this.instance = null;
 
         this.routeContainer = new Map();
     }
 
     async start(): Promise<void> {
-        this.app = express();
-        const corsCallback = {
-            origin: (origin: any, callback: any) => {
-                callback(null, this.options.allowedOrigins.indexOf(origin) !== -1);
-            },
-            credentials: true,
-        };
-        this.app.use(cors(corsCallback));
+        const result = await createFastifyInstance(this.options);
+        if (result instanceof Error) {
+            this.state = { status: Status.ERROR, message: result.message };
+            return;
+        }
+        this.instance = result;
 
         for (const options of this.options.routes) {
             let route: APIRoute | undefined;
@@ -59,20 +58,7 @@ class FeatureAPI extends Feature {
             route.state = { status: Status.SUCCESS, message: "SUCCESS" };
         }
 
-        this.appServer = this.app.listen(this.options.port);
-        await new Promise((resolve) => {
-            if (this.appServer === undefined) {
-                resolve(0);
-                return;
-            }
-            this.appServer.once("error", (e) => {
-                this.state = { status: Status.ERROR, message: e.message };
-                resolve(0);
-            });
-            this.appServer.once("listening", () => {
-                resolve(0);
-            });
-        });
+        startFastifyInstance(this.instance, this.options);
     }
 }
 

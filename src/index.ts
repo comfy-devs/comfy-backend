@@ -1,42 +1,36 @@
 /* Types */
-import { Config, InstanceOptions } from "./ts/types";
+import { RootOptions } from "./ts/base";
 
 /* Node Imports */
-import * as fs from "fs";
 import { Worker } from "worker_threads";
-import { existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 
 class Server {
-    config: Config;
+    rootOptions: RootOptions;
 
     constructor() {
-        if (!existsSync("configs/configs/default.json")) {
-            throw new Error("The default config file is missing!");
+        if (!existsSync("configs/root.json")) {
+            throw new Error("The root config file is missing!");
         }
 
-        this.config = JSON.parse(fs.readFileSync("configs/configs/default.json", "utf-8"));
+        this.rootOptions = JSON.parse(readFileSync("configs/root.json", "utf-8"));
     }
 
     load() {
         const args = process.argv.slice(2);
         args.forEach((arg, i) => {
             switch (arg) {
-                case "--config":
-                    if (!existsSync(args[i + 1])) {
-                        throw new Error("The specified config file is missing!");
-                    }
-
-                    this.config = JSON.parse(fs.readFileSync(args[i + 1], "utf-8"));
+                default:
                     break;
             }
         });
     }
 
     start() {
-        this.config.instances.forEach((instanceOptions: InstanceOptions) => {
-            const worker: Worker = new Worker("./build/instance/instance.js", {
+        this.rootOptions.instances.forEach((instanceID: string) => {
+            const worker: Worker = new Worker("./build/instance/index.js", {
                 workerData: {
-                    options: instanceOptions,
+                    id: instanceID,
                 },
             });
         });

@@ -1,17 +1,18 @@
 /* Types */
-import { DatabaseType, FeatureType, InstanceOptions, StateDescriptor, Status } from "../ts/types";
+import { DatabaseType, FeatureType, InstanceOptions, StateDescriptor, Status } from "../ts/base";
 
 /* Node Imports */
 import { workerData } from "worker_threads";
 import { bold, green, red, yellow, gray } from "nanocolors";
+import { readFileSync } from "fs";
 
 /* Local Imports */
-import Database from "../database/database";
-import DatabaseMySQL from "../database/types/mysql";
-import DatabaseRedis from "../database/types/redis";
-import Feature from "../feature/feature";
-import FeatureStatic from "../feature/types/static";
-import FeatureAPI from "../feature/types/api";
+import Feature from "../feature";
+import FeatureStatic from "../feature/addons/static";
+import FeatureAPI from "../feature/addons/api";
+import Database from "../database";
+import DatabaseMySQL from "../database/addons/mysql";
+import DatabaseRedis from "../database/addons/redis";
 
 class Instance {
     id: string;
@@ -21,17 +22,18 @@ class Instance {
     databaseContainer: Map<string, Database>;
     featureContainer: Map<string, Feature>;
 
-    constructor(options: InstanceOptions) {
-        this.id = options.id;
+    constructor(id: string) {
+        this.id = id;
         this.state = { status: Status.WAITING, message: "WAITING" };
-        this.options = options;
+        this.options = JSON.parse(readFileSync(`configs/instances/${id}/options.json`, "utf-8"));
 
         this.databaseContainer = new Map();
         this.featureContainer = new Map();
     }
 
     load(): void {
-        for (const options of this.options.databases) {
+        for (const id of this.options.databases) {
+            const options = JSON.parse(readFileSync(`configs/databases/${id}/options.json`, "utf-8"));
             let database: Database | undefined;
             switch (options.type) {
                 case DatabaseType.MYSQL:
@@ -49,7 +51,8 @@ class Instance {
             this.databaseContainer.set(database.id, database);
         }
 
-        for (const options of this.options.features) {
+        for (const id of this.options.features) {
+            const options = JSON.parse(readFileSync(`configs/features/${id}/options.json`, "utf-8"));
             let feature: Feature | undefined;
             switch (options.type) {
                 case FeatureType.STATIC:
@@ -118,6 +121,6 @@ class Instance {
 
 export default Instance;
 
-const instance = new Instance(workerData.options);
+const instance = new Instance(workerData.id);
 instance.load();
 instance.start();

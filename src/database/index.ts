@@ -1,8 +1,8 @@
 /* Types */
-import { DatabaseOptions, StateDescriptor, Status, DatabaseFetchOptions } from "../ts/types";
+import { DatabaseOptions, StateDescriptor, Status, DatabaseFetchOptions } from "../ts/base";
 
 /* Local Imports */
-import Instance from "../instance/instance";
+import Instance from "../instance";
 
 abstract class Database {
     parent: Instance;

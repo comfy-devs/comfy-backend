@@ -1,8 +1,8 @@
 /* Types */
-import { FeatureOptions, StateDescriptor, Status } from "../ts/types";
+import { FeatureOptions, StateDescriptor, Status } from "../ts/base";
 
 /* Local Imports */
-import Instance from "../instance/instance";
+import Instance from "../instance";
 
 abstract class Feature {
     parent: Instance;
