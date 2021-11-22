@@ -15,14 +15,11 @@
         "linty": "eslint 'src/**/*.{ts,tsx}' --fix",
         "pretty": "prettier --write 'src/**/*.{ts,tsx}'",
         "typecheck": "tsc --noEmit",
-        "finstall:api": "yarn add fastify fastify-cors bcrypt && yarn add -D @types/bcrypt",
-        "funinstall:api": "yarn remove fastify fastify-cors @types/bcrypt",
-        "finstall:static": "yarn add fastify fastify-cors fastify-static",
-        "funinstall:static": "yarn remove fastify fastify-cors fastify-static",
-        "finstall:mysql": "yarn add mysql2",
-        "funinstall:mysql": "yarn remove mysql2",
-        "finstall:redis": "yarn add redis && yarn add -D @types/redis",
-        "funinstall:redis": "yarn remove redis @types/redis"
+        "finstall:static": "yarn add fastify@^3.23.1 fastify-cors@^6.0.2 fastify-static@^4.5.0",
+        "finstall:api": "yarn add fastify@^3.23.1 fastify-cors@^6.0.2 bcrypt@^5.0.1 && yarn add -D @types/bcrypt@^5.0.0",
+        "finstall:mysql": "yarn add mysql2@^2.3.3-rc.0",
+        "finstall:redis": "yarn add redis@^3.1.2 && yarn add -D @types/redis@^2.8.32",
+        "funinstall": "yarn remove fastify fastify-cors fastify-static bcrypt mysql2 redis @types/bcrypt @types/redis"
     },
     "devDependencies": {
         "@commitlint/cli": "^14.1.0",
