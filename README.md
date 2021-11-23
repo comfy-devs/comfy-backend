@@ -14,13 +14,14 @@ Running is done with <code>docker-compose up</code>.
 Shutting down is with <code>docker-compose down</code>.
 
 ## CLI Commands
-| Command                                 | Description                                  |
-| --------------------------------------- | -------------------------------------------- |
-| `yarn dev`                              | Starts the backend in developer mode.        |
-| `yarn serve`                            | Starts the backend in production mode.       |
-| `yarn pretty`                           | Formats the codebase using Prettify.         |
-| `yarn lint`                             | Runs ESlint linter on the codebase.          |
-| `yarn typecheck`                        | Runs Typescript checker on the codebase.     |
+| Command                                 | Description                                    |
+| --------------------------------------- | ---------------------------------------------- |
+| `yarn dev`                              | Starts the backend in developer mode.          |
+| `yarn serve`                            | Starts the backend in production mode.         |
+| `yarn pretty`                           | Formats the codebase using Prettify.           |
+| `yarn lint`                             | Runs ESlint linter on the codebase.            |
+| `yarn linty`                            | Automatically lints the codebase using ESlint. |
+| `yarn typecheck`                        | Runs Typescript checker on the codebase.       |
             
 ## Contributing
 If you want a feature added or you found a bug, make a new <a href="https://github.com/LamkasDev/foxxy-backend/issues">Issue</a>.  

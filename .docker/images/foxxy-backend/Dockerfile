@@ -16,7 +16,5 @@ FROM node:16-alpine
 WORKDIR /usr/src/app
 
 COPY --from=builder /usr/src/app .
-RUN mkdir /usr/src/foxxy_files
 
-EXPOSE 8081 8082
 CMD [ "yarn", "serve" ]

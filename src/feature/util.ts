@@ -11,7 +11,7 @@ export function createFastifyInstance(options: FeatureOptions): fastify.FastifyI
     if (options.https) {
         instance = fastify.fastify({
             https: {
-                cert: readFileSync(`configs/features/${options.id}/cert.cert`),
+                cert: readFileSync(`configs/features/${options.id}/cert.crt`),
                 key: readFileSync(`configs/features/${options.id}/key.key`),
             },
         });
