@@ -1,6 +1,7 @@
 /* Routes */
 export enum RouteType {
     FETCH = "FETCH",
+    FETCH_MULTIPLE = "FETCH_MULTIPLE",
     SESSION_CREATE = "SESSION_CREATE",
 }
 
@@ -16,6 +17,12 @@ export type RouteFetchOptions = RouteOptions & {
     idField: string | undefined;
 };
 
+export type RouteFetchMultipleOptions = RouteOptions & {
+    type: RouteType.FETCH_MULTIPLE;
+
+    table: string;
+    idField: string | undefined;
+    disableSelectors: boolean | undefined;
 };
 
 export type RouteSessionCreateOptions = RouteOptions & {

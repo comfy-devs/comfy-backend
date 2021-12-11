@@ -11,6 +11,8 @@ import Feature from "../..";
 import Instance from "../../../instance";
 import APIRoute from "../routes";
 import RouteFetch from "../routes/extra/fetch";
+import RouteFetchMultiple from "../routes/extra/fetch_multiple";
+import RouteSessionCreate from "../routes/extra/session_create";
 import { createFastifyInstance, startFastifyInstance } from "../../util";
 
 class FeatureAPI extends Feature {
@@ -39,6 +41,14 @@ class FeatureAPI extends Feature {
             switch (options.type) {
                 case RouteType.FETCH:
                     route = new RouteFetch(options);
+                    break;
+
+                case RouteType.FETCH_MULTIPLE:
+                    route = new RouteFetchMultiple(options);
+                    break;
+
+                case RouteType.SESSION_CREATE:
+                    route = new RouteSessionCreate(options);
                     break;
             }
 
