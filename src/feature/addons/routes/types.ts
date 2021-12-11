@@ -13,6 +13,9 @@ export type RouteFetchOptions = RouteOptions & {
     type: RouteType.FETCH;
 
     table: string;
+    idField: string | undefined;
+};
+
 };
 
 export type RouteSessionCreateOptions = RouteOptions & {
