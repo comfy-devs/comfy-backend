@@ -6,4 +6,5 @@ export type FeatureStaticOptions = FeatureOptions & {
     type: FeatureType.STATIC;
 
     root: string;
+    roots?: string[];
 };

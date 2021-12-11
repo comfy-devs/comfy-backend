@@ -5,7 +5,8 @@ import { FeatureStaticOptions } from "./types";
 /* Node Imports */
 import * as fastify from "fastify";
 import fastifyStatic from "fastify-static";
-import { existsSync } from "fs";
+import { existsSync, createReadStream } from "fs";
+import { join } from "path";
 
 /* Local Imports */
 import Feature from "../..";
@@ -38,6 +39,15 @@ class FeatureStatic extends Feature {
         this.instance.register(fastifyStatic, {
             root: this.options.root,
         });
+        if(this.options.roots !== undefined) {
+            this.options.roots.forEach(root => {
+                if(this.instance === null) { return; }
+                this.instance.get(root, (req: any, rep: any) => {
+                    const stream = createReadStream(join(this.options.root, "index.html"));
+                    rep.type("text/html").send(stream);
+                });
+            });
+        }
 
         startFastifyInstance(this.instance, this.options);
     }
