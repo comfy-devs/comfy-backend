@@ -31,10 +31,6 @@ class DatabaseRedis extends Database {
         });
     }
 
-    async validate(): Promise<void> {
-        /* */
-    }
-
     async fetch(options: DatabaseFetchOptions): Promise<any> {
         const item: Record<string, string> = await new Promise((resolve, reject) => {
             if (this.connection === undefined) {
@@ -49,6 +45,10 @@ class DatabaseRedis extends Database {
             });
         });
         return item;
+    }
+
+    async fetchMultiple(options: DatabaseFetchOptions): Promise<any> {
+        return [];
     }
 }
 

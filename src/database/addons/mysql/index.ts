@@ -30,31 +30,20 @@ class DatabaseMySQL extends Database {
         });
     }
 
-    async validate(): Promise<void> {
-        if (this.connection === undefined) {
-            return;
-        }
-        for (const table of this.options.structure.tables) {
-            await this.connection.execute(`CREATE TABLE IF NOT EXISTS ${table.name} (
-                id VARCHAR(32),
-                PRIMARY KEY (id)
-            )`);
-
-            for (const column of table.columns) {
-                const exists: any[] = await this.connection.execute(`SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ? AND COLUMN_NAME = ?`, [table.name, column.name]);
-                if (exists[0][0]["COUNT(*)"] < 1) {
-                    await this.connection.execute(`ALTER TABLE ${table.name} ADD COLUMN ${column.name} ${column.type}`);
-                }
-            }
-        }
-    }
-
     async fetch(options: DatabaseFetchOptions): Promise<any> {
         if (this.connection === undefined) {
             return;
         }
-        const items: any[] = await this.connection.execute(`SELECT * FROM ${options.source}${this.selectorsToSyntax(options.selectors)}`, this.selectorsToData(options.selectors));
+        const items: any[] = await this.connection.execute(`SELECT * FROM ${options.source}${this.selectorsToSyntax(options.selectors)} LIMIT 1`, this.selectorsToData(options.selectors));
         return items[0][0];
+    }
+
+    async fetchMultiple(options: DatabaseFetchOptions): Promise<any> {
+        if (this.connection === undefined) {
+            return;
+        }
+        const items: any[] = await this.connection.execute(`SELECT * FROM ${options.source}${this.selectorsToSyntax(options.selectors)}`, this.selectorsToData(options.selectors));
+        return items[0];
     }
 
     selectorsToSyntax(selectors: Record<string, string>): string {

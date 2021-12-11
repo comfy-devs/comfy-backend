@@ -10,21 +10,6 @@ export type DatabaseMySQLOptions = DatabaseOptions & {
     user: string;
     password: string;
     database: string;
-    structure: DatabaseMySQLStructure;
-};
-
-export type DatabaseMySQLStructure = DatabaseOptions & {
-    tables: DatabaseMySQLTable[];
-};
-
-export type DatabaseMySQLTable = {
-    name: string;
-    columns: DatabaseMySQLColumn[];
-};
-
-export type DatabaseMySQLColumn = {
-    name: string;
-    type: string;
 };
 
 /* Redis */

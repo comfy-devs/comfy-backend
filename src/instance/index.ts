@@ -84,15 +84,6 @@ class Instance {
                 return;
             }
 
-            await database.validate();
-            if (database.state.status === Status.WAITING) {
-                console.log(`${green(">")} Database ${bold(yellow(database.name))} validated!`);
-            } else {
-                console.log(`${red(">")} Database ${bold(yellow(database.name))} failed to validate! (ERROR: ${red(database.state.message)})`);
-                this.fail(database.state);
-                return;
-            }
-
             database.state = { status: Status.SUCCESS, message: "SUCCESS" };
         }
 

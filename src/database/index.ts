@@ -20,8 +20,8 @@ abstract class Database {
     }
 
     abstract start(): Promise<void>;
-    abstract validate(): Promise<void>;
     abstract fetch(options: DatabaseFetchOptions): Promise<any>;
+    abstract fetchMultiple(options: DatabaseFetchOptions): Promise<any[]>;
 }
 
 export default Database;
