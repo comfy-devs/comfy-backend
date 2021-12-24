@@ -15,6 +15,7 @@ export type RouteFetchOptions = RouteOptions & {
 
     table: string;
     idField: string | undefined;
+    authorField: string | undefined;
 };
 
 export type RouteFetchMultipleOptions = RouteOptions & {
@@ -22,6 +23,7 @@ export type RouteFetchMultipleOptions = RouteOptions & {
 
     table: string;
     idField: string | undefined;
+    authorField: string | undefined;
     disableSelectors: boolean | undefined;
 };
 

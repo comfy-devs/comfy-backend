@@ -39,13 +39,22 @@ class RouteFetch extends APIRoute {
             return e.type === DatabaseType.MYSQL;
         })[0];
         feature.instance.get(this.path, async (req: Request, rep) => {
-            const selectors = { [this.options.idField === undefined ? "id": this.options.idField]: req.query.id };
+            /* Fetch */
+            const selectors = { [this.options.idField === undefined ? "id": this.options.idField]: req.params.id };
             const options: DatabaseFetchOptions = { source: this.options.table, selectors: selectors };
             const item = await database.fetch(options);
             if (item === undefined) {
                 rep.code(404); rep.send();
                 return;
             }
+
+            /* Auth */
+            if(this.options.authorField !== undefined) {
+                if(req.cookies.Token === undefined) { rep.code(403); rep.send(); return; }
+                const session = await database.fetch({ source: "sessions", selectors: { "id": req.cookies.Token } });
+                if(session === undefined || item[this.options.authorField] !== session.user) { rep.code(403); rep.send(); return; }
+            }
+
             rep.send(item);
         });
     }

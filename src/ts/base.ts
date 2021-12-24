@@ -24,7 +24,9 @@ export type FeatureOptions = {
 
     port: number;
     https: boolean;
-    allowedOrigins: string[];
+    cors?: {
+        origins: string[];
+    }
 };
 
 /* Databases */

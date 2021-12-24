@@ -4,6 +4,7 @@ import { FeatureOptions } from "../ts/base";
 /* Node Imports */
 import * as fastify from "fastify";
 import fastifyCors from "fastify-cors";
+import fastifyCookie from "fastify-cookie";
 import { readFileSync } from "fs";
 
 export function createFastifyInstance(options: FeatureOptions): fastify.FastifyInstance | Error {
@@ -21,10 +22,13 @@ export function createFastifyInstance(options: FeatureOptions): fastify.FastifyI
     if (instance === undefined) {
         return new Error("Instance failed to start!");
     }
-    instance.register(fastifyCors, {
-        origin: options.allowedOrigins,
-        credentials: true,
-    });
+    if(options.cors !== undefined) {
+        instance.register(fastifyCors, {
+            origin: options.cors.origins,
+            credentials: true,
+        });
+    }
+    instance.register(fastifyCookie, {});
 
     return instance;
 };

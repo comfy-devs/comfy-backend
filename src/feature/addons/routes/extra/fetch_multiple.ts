@@ -39,9 +39,22 @@ class RouteFetchMultiple extends APIRoute {
             return e.type === DatabaseType.MYSQL;
         })[0];
         feature.instance.get(this.path, async (req: Request, rep) => {
+            /* Fetch */
             const selectors = this.options.disableSelectors ? {} : { [this.options.idField === undefined ? "id": this.options.idField]: req.query.id };
             const options: DatabaseFetchOptions = { source: this.options.table, selectors: selectors };
-            const items = await database.fetchMultiple(options);
+            let items = await database.fetchMultiple(options);
+
+            /* Auth */
+            if(this.options.authorField !== undefined) {
+                if(req.cookies.Token === undefined) { rep.code(403); rep.send(); return; }
+                const session = await database.fetch({ source: "sessions", selectors: { "id": req.cookies.Token } });
+                if(session === undefined) { rep.code(403); rep.send(); return; }
+                items = items.filter(e => {
+                    if(this.options.authorField === undefined) { return; }
+                    return e[this.options.authorField] === session.user;
+                });
+            }
+
             rep.send(items);
         });
     }
