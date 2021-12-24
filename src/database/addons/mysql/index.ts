@@ -49,12 +49,7 @@ class DatabaseMySQL extends Database {
     selectorsToSyntax(selectors: Record<string, string>): string {
         const list = Object.keys(selectors);
         if (list.length > 0) {
-            return ` WHERE${
-                (list.reduce((acc, curr) => {
-                    return acc + ` ${curr} = ?`;
-                }),
-                "")
-            }`;
+            return ` WHERE (${list.reduce((acc, curr) => { return `${acc}${curr} = ?, `; }, "").slice(0, -2)})`;
         }
 
         return "";
