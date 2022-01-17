@@ -38,25 +38,39 @@ class RouteFetchMultiple extends APIRoute {
         const database: Database = Array.from(feature.parent.databaseContainer.values()).filter((e) => {
             return e.type === DatabaseType.MYSQL;
         })[0];
-        feature.instance.get(this.path, async (req: Request, rep) => {
-            /* Fetch */
-            const selectors = this.options.disableSelectors ? {} : { [this.options.idField === undefined ? "id": this.options.idField]: req.query.id };
-            const options: DatabaseFetchOptions = { source: this.options.table, selectors: selectors };
-            let items = await database.fetchMultiple(options);
+        feature.instance.get(this.path,
+            { config: { rateLimit: { timeWindow: 1000, max: 10 } } },
+            async (req: Request, rep) => {
+                /* Validate schema */
+                if(!this.options.disableSelectors && req.query.id === undefined) { rep.code(400); rep.send(); return; }
 
-            /* Auth */
-            if(this.options.authorField !== undefined) {
-                if(req.cookies.Token === undefined) { rep.code(403); rep.send(); return; }
-                const session = await database.fetch({ source: "sessions", selectors: { "id": req.cookies.Token } });
-                if(session === undefined) { rep.code(403); rep.send(); return; }
-                items = items.filter(e => {
-                    if(this.options.authorField === undefined) { return; }
-                    return e[this.options.authorField] === session.user;
+                /* Fetch */
+                const selectors = this.options.disableSelectors ? {} : { [this.options.idField === undefined ? "id": this.options.idField]: req.query.id };
+                const options: DatabaseFetchOptions = { source: this.options.table, selectors: selectors };
+                let items = await database.fetchMultiple(options);
+
+                /* Check if user is permitted to access */
+                if(this.options.authorField !== undefined) {
+                    if(req.cookies.Token === undefined) { rep.code(403); rep.send(); return; }
+                    const session = await database.fetch({ source: "sessions", selectors: { "id": req.cookies.Token } });
+                    if(session === undefined) { rep.code(403); rep.send(); return; }
+                    items = items.filter(e => {
+                        if(this.options.authorField === undefined) { return; }
+                        return e[this.options.authorField] === session.user;
+                    });
+                }
+                
+                /* Sanitize */
+                items = items.map(e => {
+                    this.options.sensitiveFields?.forEach(el => {
+                        delete e[el];
+                    });
+                    return e;
                 });
-            }
 
-            rep.send(items);
-        });
+                rep.send(items);
+            }
+        );
     }
 }
 

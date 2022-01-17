@@ -15,17 +15,19 @@ export type RouteFetchOptions = RouteOptions & {
     type: RouteType.FETCH;
 
     table: string;
-    idField: string | undefined;
-    authorField: string | undefined;
+    idField?: string;
+    authorField?: string;
+    sensitiveFields?: string[];
 };
 
 export type RouteFetchMultipleOptions = RouteOptions & {
     type: RouteType.FETCH_MULTIPLE;
 
     table: string;
-    idField: string | undefined;
-    authorField: string | undefined;
-    disableSelectors: boolean | undefined;
+    idField?: string;
+    authorField?: string;
+    sensitiveFields?: string[];
+    disableSelectors?: boolean;
 };
 
 export type RouteSessionCreateOptions = RouteOptions & {
