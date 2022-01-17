@@ -5,6 +5,7 @@ import { FeatureOptions } from "../ts/base";
 import * as fastify from "fastify";
 import fastifyCors from "fastify-cors";
 import fastifyCookie from "fastify-cookie";
+import fastifyRateLimit from "fastify-rate-limit";
 import { readFileSync } from "fs";
 
 export function createFastifyInstance(options: FeatureOptions): fastify.FastifyInstance | Error {
@@ -26,6 +27,11 @@ export function createFastifyInstance(options: FeatureOptions): fastify.FastifyI
         instance.register(fastifyCors, {
             origin: options.cors.origins,
             credentials: true,
+        });
+    }
+    if(options.rateLimit === true) {
+        instance.register(fastifyRateLimit, {
+            global : false
         });
     }
     instance.register(fastifyCookie, {});

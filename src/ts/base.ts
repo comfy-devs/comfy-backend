@@ -26,7 +26,8 @@ export type FeatureOptions = {
     https: boolean;
     cors?: {
         origins: string[];
-    }
+    };
+    rateLimit?: boolean;
 };
 
 /* Databases */
