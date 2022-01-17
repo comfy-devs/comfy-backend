@@ -1,5 +1,5 @@
 /* Types */
-import { DatabaseFetchOptions, Status } from "../../../ts/base";
+import { DatabaseAddOptions, DatabaseFetchOptions, Status } from "../../../ts/base";
 import { DatabaseMySQLOptions } from "../../types";
 
 /* Node Imports */
@@ -34,7 +34,7 @@ class DatabaseMySQL extends Database {
         if (this.connection === undefined) {
             return;
         }
-        const items: any[] = await this.connection.execute(`SELECT * FROM ${options.source}${this.selectorsToSyntax(options.selectors)} LIMIT 1`, this.selectorsToData(options.selectors));
+        const items: any[] = await this.connection.execute(`SELECT * FROM ${options.source} ${this.selectorsToSyntax(options.selectors)} LIMIT 1`, this.selectorsToData(options.selectors));
         return items[0][0];
     }
 
@@ -42,14 +42,21 @@ class DatabaseMySQL extends Database {
         if (this.connection === undefined) {
             return;
         }
-        const items: any[] = await this.connection.execute(`SELECT * FROM ${options.source}${this.selectorsToSyntax(options.selectors)}`, this.selectorsToData(options.selectors));
+        const items: any[] = await this.connection.execute(`SELECT * FROM ${options.source} ${this.selectorsToSyntax(options.selectors)}`, this.selectorsToData(options.selectors));
         return items[0];
+    }
+
+    async add(options: DatabaseAddOptions): Promise<any> {
+        if (this.connection === undefined) {
+            return;
+        }
+        await this.connection.execute(`INSERT INTO ${options.destination} (${this.itemToValueKeys(options.item)}) VALUES (${this.itemToValueQuestions(options.item)})`, this.itemToValues(options.item));
     }
 
     selectorsToSyntax(selectors: Record<string, string>): string {
         const list = Object.keys(selectors);
         if (list.length > 0) {
-            return ` WHERE (${list.reduce((acc, curr) => { return `${acc}${curr} = ?, `; }, "").slice(0, -2)})`;
+            return `WHERE (${list.reduce((acc, curr) => { return `${acc}${curr} = ?, `; }, "").slice(0, -2)})`;
         }
 
         return "";
@@ -59,6 +66,21 @@ class DatabaseMySQL extends Database {
         const list = Object.values(selectors);
         return list;
     }
+
+    itemToValueKeys(item: Record<string, string>): string {
+        const list = Object.keys(item);
+        return list.join(", ");
+    }
+
+    itemToValueQuestions(item: Record<string, string>): string {
+        return Object.values(item).reduce((acc) => { return `${acc}?, `; }, "").slice(0, -2);
+    }
+
+    itemToValues(item: Record<string, string>): string[] {
+        const list = Object.values(item);
+        return list;
+    }
+
 }
 
 export default DatabaseMySQL;

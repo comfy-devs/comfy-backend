@@ -46,6 +46,11 @@ export type DatabaseFetchOptions = {
     selectors: Record<string, string>;
 };
 
+export type DatabaseAddOptions = {
+    destination: string;
+    item: Record<string, string>;
+};
+
 /* Statuses */
 export type StateDescriptor = {
     status: Status;
