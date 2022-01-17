@@ -2,6 +2,7 @@
 export enum RouteType {
     FETCH = "FETCH",
     FETCH_MULTIPLE = "FETCH_MULTIPLE",
+    STATS = "STATS",
     SESSION_CREATE = "SESSION_CREATE",
     AUTH_CREATE = "AUTH_CREATE",
 }
@@ -28,6 +29,10 @@ export type RouteFetchMultipleOptions = RouteOptions & {
     authorField?: string;
     sensitiveFields?: string[];
     disableSelectors?: boolean;
+};
+
+export type RouteStatsOptions = RouteOptions & {
+    type: RouteType.STATS;
 };
 
 export type RouteSessionCreateOptions = RouteOptions & {

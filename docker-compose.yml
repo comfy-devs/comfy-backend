@@ -1,48 +1,50 @@
 services:
-  foxxy-mysql:
-    container_name: foxxy-mysql
+  nyananime-xyz-mysql:
+    container_name: nyananime-xyz-mysql
     image: mariadb:latest
     restart: "always"
-    expose:
-      - "3306"
+    ports:
+      - "3306:3306"
     networks:
-      - foxxy-backend
+      - nyananime-xyz
     volumes:
-      - foxxy-mysql:/var/lib/mysql
+      - nyananime-xyz-mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: "foxxy-db"
+      MYSQL_DATABASE: "nyan-db"
       MYSQL_ROOT_HOST: "%"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "--silent"]
       timeout: 5s
       retries: 10
     command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
-  foxxy-backend:
-    container_name: foxxy-backend
-    image: foxxy-backend:latest
+  nyananime-xyz-backend:
+    container_name: nyananime-xyz-backend
+    image: nyananime-xyz-backend:latest
     restart: "always"
-    ports:
-      - "8081:8081"
-      - "8082:8082"
+    expose:
+      - "446"
+      - "447"
     networks:
-      - foxxy-backend
+      - cute-femboys-internal
+      - nyananime-xyz
     volumes:
       - ./configs:/usr/src/app/configs
+      - /home/cute-femboys/nyananime-xyz-static:/usr/src/static
     depends_on:
-      foxxy-mysql:
-        condition: service_healthy
-      foxxy-redis:
+      nyananime-xyz-mysql:
         condition: service_healthy
     build: 
       context: ./
       dockerfile: .docker/images/foxxy-backend/Dockerfile
     tty: yes
 volumes:
-  foxxy-mysql:
+  nyananime-xyz-mysql:
     external: true
-  foxxy-redis:
+  nyananime-xyz-redis:
     external: true
 networks:
-  foxxy-backend:
-    name: foxxy-backend
+  cute-femboys-internal:
+    external: true
+  nyananime-xyz:
+    name: nyananime-xyz

@@ -14,6 +14,7 @@ import RouteFetch from "../routes/extra/fetch";
 import RouteFetchMultiple from "../routes/extra/fetch_multiple";
 import RouteSessionCreate from "../routes/extra/session_create";
 import RouteAuthCreate from "../routes/extra/auth_create";
+import RouteStats from "../routes/extra/stats";
 import { createFastifyInstance, startFastifyInstance } from "../../util";
 
 class FeatureAPI extends Feature {
@@ -56,6 +57,9 @@ class FeatureAPI extends Feature {
                     route = new RouteAuthCreate(options);
                     break;
 
+                case RouteType.STATS:
+                    route = new RouteStats(options);
+                    break;
             }
 
             if (route === undefined) {

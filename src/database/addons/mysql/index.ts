@@ -28,6 +28,7 @@ class DatabaseMySQL extends Database {
         }).catch((e) => {
             this.state = { status: Status.ERROR, message: e.message };
         });
+        setInterval(() => { this.fetch({ source: "animes", selectors: { id: "0" } }); }, 1000 * 60 * 5);
     }
 
     async fetch(options: DatabaseFetchOptions): Promise<any> {
