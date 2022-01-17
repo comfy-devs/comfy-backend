@@ -26,7 +26,6 @@
         "@commitlint/config-conventional": "^15.0.0",
         "@types/bcrypt": "^5.0.0",
         "@types/node": "^17.0.4",
-        "@types/redis": "^2.8.32",
         "@typescript-eslint/eslint-plugin": "^5.8.0",
         "@typescript-eslint/parser": "^5.8.0",
         "eslint": "^8.5.0",
@@ -42,7 +41,6 @@
         "fastify-cors": "^6.0.2",
         "fastify-static": "^4.5.0",
         "mysql2": "^2.3.3",
-        "nanocolors": "^0.2.12",
-        "redis": "^3.1.2"
+        "nanocolors": "^0.2.12"
     }
 }

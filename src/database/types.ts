@@ -11,11 +11,3 @@ export type DatabaseMySQLOptions = DatabaseOptions & {
     password: string;
     database: string;
 };
-
-/* Redis */
-export type DatabaseRedisOptions = DatabaseOptions & {
-    type: DatabaseType.REDIS;
-
-    host: string;
-    port: number;
-};

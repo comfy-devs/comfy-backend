@@ -18,22 +18,6 @@ services:
       timeout: 5s
       retries: 10
     command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
-  foxxy-redis:
-    container_name: foxxy-redis
-    image: redis:alpine
-    restart: "always"
-    expose:
-      - "6379"
-    networks:
-      - foxxy-backend
-    volumes:
-      - .docker/volumes/foxxy-redis:/usr/local/etc/redis
-      - foxxy-redis:/data
-    healthcheck:
-      test: ["CMD", "redis-cli" ,"ping"]
-      timeout: 5s
-      retries: 10
-    command: ["/usr/local/etc/redis/redis.conf"]
   foxxy-backend:
     container_name: foxxy-backend
     image: foxxy-backend:latest

@@ -12,7 +12,6 @@ import FeatureStatic from "../feature/addons/static";
 import FeatureAPI from "../feature/addons/api";
 import Database from "../database";
 import DatabaseMySQL from "../database/addons/mysql";
-import DatabaseRedis from "../database/addons/redis";
 
 class Instance {
     id: string;
@@ -38,10 +37,6 @@ class Instance {
             switch (options.type) {
                 case DatabaseType.MYSQL:
                     database = new DatabaseMySQL(this, options);
-                    break;
-
-                case DatabaseType.REDIS:
-                    database = new DatabaseRedis(this, options);
                     break;
             }
 
