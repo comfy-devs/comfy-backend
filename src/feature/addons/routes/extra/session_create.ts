@@ -13,7 +13,7 @@ import FeatureAPI from "../../api";
 import Database from "../../../../database";
 
 type Request = FastifyRequest<{
-    Body: { username: string; password: string };
+    Querystring: { type: string, username?: string; password?: string };
 }>;
 
 class RouteSessionCreate extends APIRoute {
@@ -36,41 +36,72 @@ class RouteSessionCreate extends APIRoute {
             this.state = { status: Status.ERROR, message: "NO_DATABASE_FOUND" };
             return;
         }
-        if (
-            Array.from(feature.parent.databaseContainer.values()).filter((e) => {
-                return e.type === DatabaseType.REDIS;
-            }).length === 0
-        ) {
-            this.state = { status: Status.ERROR, message: "NO_SESSION_DATABASE_FOUND" };
-            return;
-        }
 
         const database: Database = Array.from(feature.parent.databaseContainer.values()).filter((e) => {
             return e.type === DatabaseType.MYSQL;
         })[0];
-        const sessionDatabase: Database = Array.from(feature.parent.databaseContainer.values()).filter((e) => {
-            return e.type === DatabaseType.REDIS;
-        })[0];
-        feature.instance.post(this.path, async (req: Request, rep) => {
-            const options: DatabaseFetchOptions = { source: "users", selectors: { username: req.body.username } };
-            const user = await database.fetch(options);
-            if (user === undefined) {
-                rep.code(404);
-                return;
-            }
-            if ((await compare(req.body.password, user.password)) === false) {
-                rep.code(401);
-                return;
-            }
+        feature.instance.post(this.path,
+            { config: { rateLimit: { timeWindow: 1000, max: 4 } } },
+            async (req: Request, rep) => {
+                switch(req.query.type) {
+                    case "token": {
+                        /* Validate schema */
+                        if(req.cookies.Token === undefined) { rep.code(403); rep.send(); return; }
 
-            const serverSession = {
-                username: user.username,
-            };
-            const userSession = {
-                token: randomBytes(16).toString("hex"),
-            };
-            rep.send(userSession);
-        });
+                        /* Check if session exists */
+                        const options: DatabaseFetchOptions = { source: "sessions", selectors: { id: req.cookies.Token } };
+                        const session = await database.fetch(options);
+                        if (session === undefined) {
+                            rep.code(404);
+                            rep.send();
+                            return;
+                        }
+
+                        /* Return session */
+                        rep.cookie("Token", session.id);
+                        rep.send(session);
+                        break;
+                    }
+
+                    case "classic": {
+                        /* Validate schema */
+                        if(req.query.username === undefined || req.query.password === undefined) { rep.code(400); rep.send(); return; }
+                        
+                        /* Check if user exists */
+                        const options: DatabaseFetchOptions = { source: "users", selectors: { username: req.query.username } };
+                        const user = await database.fetch(options);
+                        if (user === undefined) {
+                            rep.code(404);
+                            rep.send();
+                            return;
+                        }
+
+                        /* Compare passwords */
+                        if ((await compare(req.query.password, user.password)) === false) {
+                            rep.code(401);
+                            rep.send();
+                            return;
+                        }
+
+                        /* Create session */
+                        const session = {
+                            id: randomBytes(16).toString("hex"),
+                            user: user.id
+                        };
+                        database.add({ destination: "sessions", item: session });
+                        rep.cookie("Token", session.id);
+                        rep.send(session);
+                        break;
+                    }
+
+                    default: {
+                        rep.code(400);
+                        rep.send();
+                        break;
+                    }
+                }
+            }
+        );
     }
 }
 
