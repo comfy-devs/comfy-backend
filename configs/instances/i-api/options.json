@@ -1,0 +1,6 @@
+{ 
+    "id": "i-api",
+    "name": "i-api",
+    "features": ["f-api"],
+    "databases": ["d-mysql"]  
+}

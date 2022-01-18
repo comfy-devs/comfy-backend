@@ -1,0 +1,10 @@
+{
+	"id": "f-static",
+	"name": "f-static",
+	"type": "STATIC",
+
+	"port": 446,
+	"https": false,
+	"root": "/usr/src/static",
+	"roots": ["/all", "/genres", "/settings", "/download", "/account", "/animes/:animeId", "/groups/:groupId", "/episodes/:episodeId"]
+}

@@ -1,0 +1,6 @@
+{ 
+    "id": "i-static",
+    "name": "i-static",
+    "features": ["f-static"],
+    "databases": []
+}

@@ -1,0 +1,10 @@
+{
+    "id": "d-mysql",
+    "name": "d-mysql",
+    "type": "MYSQL",
+    
+    "host": "nyananime-xyz-mysql",
+    "user": "root",
+    "password": "root",
+    "database": "nyan-db"
+}
