@@ -1,5 +1,5 @@
 /* Types */
-import { DatabaseOptions, StateDescriptor, Status, DatabaseFetchOptions, DatabaseAddOptions } from "../ts/base";
+import { DatabaseOptions, StateDescriptor, Status, DatabaseFetchOptions, DatabaseAddOptions, DatabaseEditOptions } from "../ts/base";
 
 /* Local Imports */
 import Instance from "../instance";
@@ -23,6 +23,7 @@ abstract class Database {
     abstract fetch(options: DatabaseFetchOptions): Promise<any>;
     abstract fetchMultiple(options: DatabaseFetchOptions): Promise<any[]>;
     abstract add(options: DatabaseAddOptions): Promise<any>;
+    abstract edit(options: DatabaseEditOptions): Promise<any>;
 }
 
 export default Database;

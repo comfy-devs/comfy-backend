@@ -14,6 +14,9 @@ import RouteFetch from "../routes/extra/fetch";
 import RouteFetchMultiple from "../routes/extra/fetch_multiple";
 import RouteSessionCreate from "../routes/extra/session_create";
 import RouteAuthCreate from "../routes/extra/auth_create";
+import RoutePushSend from "../routes/extra/push_send";
+import RoutePushSubscribe from "../routes/extra/push_subscribe";
+import RoutePushUnsubscribe from "../routes/extra/push_unsubscribe";
 import { createFastifyInstance, startFastifyInstance } from "../../util";
 
 class FeatureAPI extends Feature {
@@ -56,6 +59,17 @@ class FeatureAPI extends Feature {
                     route = new RouteAuthCreate(options);
                     break;
 
+                case RouteType.PUSH_SEND:
+                    route = new RoutePushSend(options);
+                    break;
+
+                case RouteType.PUSH_SUBSCRIBE:
+                    route = new RoutePushSubscribe(options);
+                    break;
+
+                case RouteType.PUSH_UNSUBSCRIBE:
+                    route = new RoutePushUnsubscribe(options);
+                    break;
             }
 
             if (route === undefined) {

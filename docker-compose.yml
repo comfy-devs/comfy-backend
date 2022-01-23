@@ -10,7 +10,7 @@ services:
     volumes:
       - foxxy-mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: "${FOXXY_mysql_PASSWORD}"
       MYSQL_DATABASE: "foxxy-db"
       MYSQL_ROOT_HOST: "%"
     healthcheck:
@@ -29,6 +29,8 @@ services:
       - foxxy-backend
     volumes:
       - ./configs:/usr/src/app/configs
+    environment:
+      FOXXY_mysql_PASSWORD: "${FOXXY_mysql_PASSWORD}"
     depends_on:
       foxxy-mysql:
         condition: service_healthy
