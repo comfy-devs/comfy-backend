@@ -10,8 +10,8 @@ services:
     volumes:
       - nyananime-xyz-mysql:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: "nyan-db"
+      MYSQL_ROOT_PASSWORD: "${FOXXY_mysql_PASSWORD}"
+      MYSQL_DATABASE: "foxxy-db"
       MYSQL_ROOT_HOST: "%"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "--silent"]
@@ -31,6 +31,8 @@ services:
     volumes:
       - ./configs:/usr/src/app/configs
       - /home/cute-femboys/nyananime-xyz-static:/usr/src/static
+    environment:
+      FOXXY_mysql_PASSWORD: "${FOXXY_mysql_PASSWORD}"
     depends_on:
       nyananime-xyz-mysql:
         condition: service_healthy

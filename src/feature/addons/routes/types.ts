@@ -2,9 +2,12 @@
 export enum RouteType {
     FETCH = "FETCH",
     FETCH_MULTIPLE = "FETCH_MULTIPLE",
-    STATS = "STATS",
     SESSION_CREATE = "SESSION_CREATE",
     AUTH_CREATE = "AUTH_CREATE",
+    PUSH_SEND = "PUSH_SEND",
+    PUSH_SUBSCRIBE = "PUSH_SUBSCRIBE",
+    PUSH_UNSUBSCRIBE = "PUSH_UNSUBSCRIBE",
+    STATS = "STATS",
 }
 
 export type RouteOptions = {
@@ -31,14 +34,26 @@ export type RouteFetchMultipleOptions = RouteOptions & {
     disableSelectors?: boolean;
 };
 
-export type RouteStatsOptions = RouteOptions & {
-    type: RouteType.STATS;
-};
-
 export type RouteSessionCreateOptions = RouteOptions & {
     type: RouteType.SESSION_CREATE;
 };
 
 export type RouteAuthCreateOptions = RouteOptions & {
     type: RouteType.AUTH_CREATE;
+};
+
+export type RoutePushSendOptions = RouteOptions & {
+    type: RouteType.PUSH_SEND;
+};
+
+export type RoutePushSubscribeOptions = RouteOptions & {
+    type: RouteType.PUSH_SUBSCRIBE;
+};
+
+export type RoutePushUnsubscribeOptions = RouteOptions & {
+    type: RouteType.PUSH_UNSUBSCRIBE;
+};
+
+export type RouteStatsOptions = RouteOptions & {
+    type: RouteType.STATS;
 };

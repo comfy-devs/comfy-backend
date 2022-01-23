@@ -52,6 +52,12 @@ export type DatabaseAddOptions = {
     item: Record<string, string>;
 };
 
+export type DatabaseEditOptions = {
+    destination: string;
+    selectors: Record<string, string>;
+    item: Record<string, string>;
+};
+
 /* Statuses */
 export type StateDescriptor = {
     status: Status;
