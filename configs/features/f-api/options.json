@@ -19,7 +19,7 @@
             "type": "FETCH",
             "table": "users",
             "authorField": "id",
-            "sensitiveFields": ["password"]
+            "sensitiveFields": ["password", "pushUrl", "pushKey", "pushAuth"]
         },
         {
             "path": "/v1/animes/fetch",
@@ -76,6 +76,18 @@
             "type": "FETCH_MULTIPLE",
             "table": "segments",
             "disableSelectors": true
+        },
+        {
+            "path": "/v1/notifications/send",
+            "type": "PUSH_SEND"
+        },
+        {
+            "path": "/v1/notifications/subscribe",
+            "type": "PUSH_SUBSCRIBE"
+        },
+        {
+            "path": "/v1/notifications/unsubscribe",
+            "type": "PUSH_UNSUBSCRIBE"
         },
         {
             "path": "/v1/stats/fetch",

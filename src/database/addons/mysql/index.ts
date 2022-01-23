@@ -1,5 +1,5 @@
 /* Types */
-import { DatabaseAddOptions, DatabaseFetchOptions, Status } from "../../../ts/base";
+import { DatabaseAddOptions, DatabaseEditOptions, DatabaseFetchOptions, Status } from "../../../ts/base";
 import { DatabaseMySQLOptions } from "../../types";
 
 /* Node Imports */
@@ -51,7 +51,14 @@ class DatabaseMySQL extends Database {
         if (this.connection === undefined) {
             return;
         }
-        await this.connection.execute(`INSERT INTO ${options.destination} (${this.itemToValueKeys(options.item)}) VALUES (${this.itemToValueQuestions(options.item)})`, this.itemToValues(options.item));
+        await this.connection.execute(`INSERT INTO ${options.destination} (${this.itemToKeys(options.item)}) VALUES (${this.itemToValueQuestions(options.item)})`, this.itemToValues(options.item));
+    }
+
+    async edit(options: DatabaseEditOptions): Promise<any> {
+        if (this.connection === undefined) {
+            return;
+        }
+        await this.connection.execute(`UPDATE ${options.destination} SET ${this.itemToKeysWithQuestions(options.item)} ${this.selectorsToSyntax(options.selectors)}`, this.itemToValues(options.item).concat(this.selectorsToData(options.selectors)));
     }
 
     selectorsToSyntax(selectors: Record<string, string>): string {
@@ -68,9 +75,13 @@ class DatabaseMySQL extends Database {
         return list;
     }
 
-    itemToValueKeys(item: Record<string, string>): string {
+    itemToKeys(item: Record<string, string>): string {
         const list = Object.keys(item);
         return list.join(", ");
+    }
+
+    itemToKeysWithQuestions(item: Record<string, string>): string {
+        return Object.keys(item).reduce((acc, curr) => { return `${acc}${curr} = ?, `; }, "").slice(0, -2);
     }
 
     itemToValueQuestions(item: Record<string, string>): string {
