@@ -83,6 +83,18 @@ class FeatureAPI extends Feature {
                     route = new RoutePushUnsubscribe(options);
                     break;
 
+                case RouteType.PUSH_SEND:
+                    route = new RoutePushSend(options);
+                    break;
+
+                case RouteType.PUSH_SUBSCRIBE:
+                    route = new RoutePushSubscribe(options);
+                    break;
+
+                case RouteType.PUSH_UNSUBSCRIBE:
+                    route = new RoutePushUnsubscribe(options);
+                    break;
+
                 case RouteType.STATS:
                     route = new RouteStats(options);
                     break;
