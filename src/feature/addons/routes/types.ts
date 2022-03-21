@@ -20,7 +20,6 @@ export type RouteFetchOptions = RouteOptions & {
     table: string;
     idField?: string;
     authorField?: string;
-    sensitiveFields?: string[];
 };
 
 export type RouteFetchMultipleOptions = RouteOptions & {
@@ -29,7 +28,6 @@ export type RouteFetchMultipleOptions = RouteOptions & {
     table: string;
     idField?: string;
     authorField?: string;
-    sensitiveFields?: string[];
     disableSelectors?: boolean;
 };
 

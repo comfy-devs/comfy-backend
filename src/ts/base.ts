@@ -45,17 +45,18 @@ export type DatabaseOptions = {
 export type DatabaseFetchOptions = {
     source: string;
     selectors: Record<string, string>;
+    ignoreSensitive?: boolean;
 };
 
 export type DatabaseAddOptions = {
     destination: string;
-    item: Record<string, string>;
+    item: Record<string, string | number>;
 };
 
 export type DatabaseEditOptions = {
     destination: string;
     selectors: Record<string, string>;
-    item: Record<string, string>;
+    item: Record<string, string | number>;
 };
 
 /* Statuses */

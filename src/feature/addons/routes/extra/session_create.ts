@@ -49,7 +49,7 @@ class RouteSessionCreate extends APIRoute {
                         if(req.cookies.Token === undefined) { rep.code(403); rep.send(); return; }
 
                         /* Check if session exists */
-                        const options: DatabaseFetchOptions = { source: "sessions", selectors: { id: req.cookies.Token } };
+                        const options: DatabaseFetchOptions = { source: "sessions", selectors: { id: req.cookies.Token }, ignoreSensitive: true };
                         const session = await database.fetch(options);
                         if (session === undefined) {
                             rep.code(404);
@@ -68,7 +68,7 @@ class RouteSessionCreate extends APIRoute {
                         if(req.query.username === undefined || req.query.password === undefined) { rep.code(400); rep.send(); return; }
                         
                         /* Check if user exists */
-                        const options: DatabaseFetchOptions = { source: "users", selectors: { username: req.query.username } };
+                        const options: DatabaseFetchOptions = { source: "users", selectors: { username: req.query.username }, ignoreSensitive: true };
                         const user = await database.fetch(options);
                         if (user === undefined) {
                             rep.code(404);
