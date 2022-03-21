@@ -6,5 +6,5 @@
 	"port": 446,
 	"https": false,
 	"root": "/usr/src/static",
-	"roots": ["/all", "/genres", "/settings", "/download", "/account", "/animes/:animeId", "/groups/:groupId", "/episodes/:episodeId"]
+	"roots": ["/all", "/genres", "/settings", "/download", "/status", "/login", "/register", "/account", "/animes/:animeId", "/groups/:groupId", "/episodes/:episodeId"]
 }
