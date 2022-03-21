@@ -2,6 +2,10 @@
 import { DatabaseOptions, DatabaseType } from "../ts/base";
 
 /* MySQL */
+export enum DatabaseMySQLFieldModifier {
+    ARRAY = "ARRAY"
+}
+
 export type DatabaseMySQLOptions = DatabaseOptions & {
     type: DatabaseType.MYSQL;
 
@@ -10,4 +14,10 @@ export type DatabaseMySQLOptions = DatabaseOptions & {
     user: string;
     password: string;
     database: string;
+    structure?: Record<string, Record<string, DatabaseMySQLStructureField>>;
+};
+
+export type DatabaseMySQLStructureField = {
+    modifier?: string;
+    sensitive?: boolean;
 };

@@ -59,11 +59,6 @@ class RouteFetch extends APIRoute {
                     const session = await database.fetch({ source: "sessions", selectors: { "id": req.cookies.Token } });
                     if(session === undefined || item[this.options.authorField] !== session.user) { rep.code(403); rep.send(); return; }
                 }
-                
-                /* Sanitize */
-                this.options.sensitiveFields?.forEach(el => {
-                    delete item[el];
-                });
 
                 rep.send(item);
             }

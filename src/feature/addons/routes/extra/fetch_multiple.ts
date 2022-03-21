@@ -59,14 +59,6 @@ class RouteFetchMultiple extends APIRoute {
                         return e[this.options.authorField] === session.user;
                     });
                 }
-                
-                /* Sanitize */
-                items = items.map(e => {
-                    this.options.sensitiveFields?.forEach(el => {
-                        delete e[el];
-                    });
-                    return e;
-                });
 
                 rep.send(items);
             }
