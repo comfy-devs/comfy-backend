@@ -18,8 +18,7 @@
             "path": "/v1/users/fetch",
             "type": "FETCH",
             "table": "users",
-            "authorField": "id",
-            "sensitiveFields": ["password", "pushUrl", "pushKey", "pushAuth"]
+            "authorField": "id"
         },
         {
             "path": "/v1/animes/fetch",
@@ -39,6 +38,14 @@
             "idField": "anime"
         },
         {
+            "path": "/v1/animes/favourite",
+            "type": "NYAN_FAVOURITE"
+        },
+        {
+            "path": "/v1/animes/unfavourite",
+            "type": "NYAN_UNFAVOURITE"
+        },
+        {
             "path": "/v1/groups/fetch",
             "type": "FETCH",
             "table": "groups"
@@ -55,15 +62,21 @@
             "table": "episodes"
         },
         {
-            "path": "/v1/episodes/all/fetch",
-            "type": "FETCH_MULTIPLE",
-            "table": "episodes",
-            "disableSelectors": true
-        },
-        {
             "path": "/v1/episodes/segments/fetch",
             "type": "FETCH_MULTIPLE",
             "table": "segments",
+            "idField": "episode"
+        },
+        {
+            "path": "/v1/episodes/encodes/fetch",
+            "type": "FETCH_MULTIPLE",
+            "table": "encodes",
+            "idField": "episode"
+        },
+        {
+            "path": "/v1/episodes/comments/fetch",
+            "type": "FETCH_MULTIPLE",
+            "table": "comments",
             "idField": "episode"
         },
         {
@@ -72,10 +85,14 @@
             "table": "segments"
         },
         {
-            "path": "/v1/segments/all/fetch",
-            "type": "FETCH_MULTIPLE",
-            "table": "segments",
-            "disableSelectors": true
+            "path": "/v1/encodes/fetch",
+            "type": "FETCH",
+            "table": "encodes"
+        },
+        {
+            "path": "/v1/comments/fetch",
+            "type": "FETCH",
+            "table": "comments"
         },
         {
             "path": "/v1/notifications/send",
@@ -91,7 +108,11 @@
         },
         {
             "path": "/v1/stats/fetch",
-            "type": "STATS"
+            "type": "NYAN_STATS"
+        },
+        {
+            "path": "/v1/notifications/new-episode/send",
+            "type": "NYAN_PUSH_NEW_EPISODE"
         }
     ]
 }

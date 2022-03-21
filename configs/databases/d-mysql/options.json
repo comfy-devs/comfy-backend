@@ -6,5 +6,14 @@
     "host": "nyananime-xyz-mysql",
     "user": "root",
     "password": "root",
-    "database": "nyan-db"
+    "database": "nyan-db",
+    "structure": {
+        "users": {
+            "password": { "sensitive": true },
+            "pushUrl": { "sensitive": true },
+            "pushKey": { "sensitive": true },
+            "pushAuth": { "sensitive": true },
+            "favourites": { "modifier": "ARRAY" }
+        }
+    }
 }
