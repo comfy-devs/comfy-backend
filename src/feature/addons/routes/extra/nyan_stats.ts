@@ -1,5 +1,5 @@
 /* Types */
-import { RouteStatsOptions } from "../types";
+import { RouteNyanStatsOptions } from "../types";
 
 /* Node Imports */
 import { exec } from "child_process";
@@ -8,10 +8,10 @@ import { exec } from "child_process";
 import APIRoute from "..";
 import FeatureAPI from "../../api";
 
-class RouteStats extends APIRoute {
-    options: RouteStatsOptions;
+class RouteNyanStats extends APIRoute {
+    options: RouteNyanStatsOptions;
 
-    constructor(options: RouteStatsOptions) {
+    constructor(options: RouteNyanStatsOptions) {
         super(options);
         this.options = options;
     }
@@ -22,7 +22,7 @@ class RouteStats extends APIRoute {
         }
 
         feature.instance.get(this.path,
-            { config: { rateLimit: { timeWindow: 1000, max: 10 } } },
+            { config: { rateLimit: { timeWindow: 1000, max: 4 } } },
             async (req, rep) => {
                 const size_image: number = await new Promise((res, rej) => {
                     exec("du -sb /usr/src/image | cut -f1", (err, stdout, stderr) => { res(parseInt(stdout)); })
@@ -46,4 +46,4 @@ class RouteStats extends APIRoute {
     }
 }
 
-export default RouteStats;
+export default RouteNyanStats;

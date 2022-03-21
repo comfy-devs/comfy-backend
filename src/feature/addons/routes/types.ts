@@ -7,7 +7,10 @@ export enum RouteType {
     PUSH_SEND = "PUSH_SEND",
     PUSH_SUBSCRIBE = "PUSH_SUBSCRIBE",
     PUSH_UNSUBSCRIBE = "PUSH_UNSUBSCRIBE",
-    STATS = "STATS",
+    NYAN_STATS = "NYAN_STATS",
+    NYAN_PUSH_NEW_EPISODE = "NYAN_PUSH_NEW_EPISODE",
+    NYAN_FAVOURITE = "NYAN_FAVOURITE",
+    NYAN_UNFAVOURITE = "NYAN_UNFAVOURITE",
 }
 
 export type RouteOptions = {
@@ -52,6 +55,18 @@ export type RoutePushUnsubscribeOptions = RouteOptions & {
     type: RouteType.PUSH_UNSUBSCRIBE;
 };
 
-export type RouteStatsOptions = RouteOptions & {
-    type: RouteType.STATS;
+export type RouteNyanStatsOptions = RouteOptions & {
+    type: RouteType.NYAN_STATS;
+};
+
+export type RouteNyanPushNewEpisodeOptions = RouteOptions & {
+    type: RouteType.NYAN_PUSH_NEW_EPISODE;
+};
+
+export type RouteNyanFavouriteOptions = RouteOptions & {
+    type: RouteType.NYAN_FAVOURITE;
+};
+
+export type RouteNyanUnfavouriteOptions = RouteOptions & {
+    type: RouteType.NYAN_UNFAVOURITE;
 };

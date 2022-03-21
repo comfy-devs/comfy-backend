@@ -60,7 +60,9 @@ class RouteAuthCreate extends APIRoute {
                 const newUser: any = {
                     id: randomBytes(16).toString("hex"),
                     username: req.query.username,
-                    password: hashSync(req.query.password, 10)
+                    password: hashSync(req.query.password, 10),
+                    pushEnabled: 0,
+                    favourites: []
                 };
                 database.add({ destination: "users", item: newUser });
                 delete newUser.password;

@@ -17,7 +17,10 @@ import RouteAuthCreate from "../routes/extra/auth_create";
 import RoutePushSend from "../routes/extra/push_send";
 import RoutePushSubscribe from "../routes/extra/push_subscribe";
 import RoutePushUnsubscribe from "../routes/extra/push_unsubscribe";
-import RouteStats from "../routes/extra/stats";
+import RouteNyanStats from "../routes/extra/nyan_stats";
+import RouteNyanPushNewEpisode from "../routes/extra/nyan_push_new_episode";
+import RouteNyanFavourite from "../routes/extra/nyan_favourite";
+import RouteNyanUnfavourite from "../routes/extra/nyan_unfavourite";
 import { createFastifyInstance, startFastifyInstance } from "../../util";
 
 class FeatureAPI extends Feature {
@@ -95,8 +98,20 @@ class FeatureAPI extends Feature {
                     route = new RoutePushUnsubscribe(options);
                     break;
 
-                case RouteType.STATS:
-                    route = new RouteStats(options);
+                case RouteType.NYAN_STATS:
+                    route = new RouteNyanStats(options);
+                    break;
+
+                case RouteType.NYAN_PUSH_NEW_EPISODE:
+                    route = new RouteNyanPushNewEpisode(options);
+                    break;
+
+                case RouteType.NYAN_FAVOURITE:
+                    route = new RouteNyanFavourite(options);
+                    break;
+
+                case RouteType.NYAN_UNFAVOURITE:
+                    route = new RouteNyanUnfavourite(options);
                     break;
             }
 
