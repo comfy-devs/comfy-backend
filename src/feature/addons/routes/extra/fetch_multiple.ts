@@ -11,7 +11,7 @@ import FeatureAPI from "../../api";
 import Database from "../../../../database";
 
 type Request = FastifyRequest<{
-    Querystring: { id: string };
+    Querystring: { id: string, start?: number, end?: number };
 }>;
 
 class RouteFetchMultiple extends APIRoute {
@@ -58,6 +58,16 @@ class RouteFetchMultiple extends APIRoute {
                         if(this.options.authorField === undefined) { return; }
                         return e[this.options.authorField] === session.user;
                     });
+                }
+
+                /* Apply pagination */
+                if(req.query.start !== undefined || req.query.end !== undefined) {
+                    const start = req.query.start ?? 0;
+                    const end = req.query.end ?? items.length;
+                    if(start < 0) { rep.code(400); rep.send(); return; }
+                    if(end < 0) { rep.code(400); rep.send(); return; }
+                    if(end < start) { rep.code(400); rep.send(); return; }
+                    items = items.slice(start, end);
                 }
 
                 rep.send(items);
