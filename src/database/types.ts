@@ -1,23 +1,50 @@
-/* Types */
-import { DatabaseOptions, DatabaseType } from "../ts/base";
+import { BuiltinDatabaseType } from "./built-in";
 
-/* MySQL */
-export enum DatabaseMySQLFieldModifier {
-    ARRAY = "ARRAY"
-}
-
-export type DatabaseMySQLOptions = DatabaseOptions & {
-    type: DatabaseType.MYSQL;
-
-    host: string;
-    port: number;
-    user: string;
-    password: string;
-    database: string;
-    structure?: Record<string, Record<string, DatabaseMySQLStructureField>>;
+/* Base */
+export type DatabaseOptions = {
+    id: string;
+    name: string;
+    type: BuiltinDatabaseType;
 };
 
-export type DatabaseMySQLStructureField = {
-    modifier?: string;
-    sensitive?: boolean;
+export type DatabaseSelectorValue = string | number | DatabaseFetchSelector;
+export type DatabaseItemValue = string | number | boolean | null;
+export type DatabaseUnserializedItemValue = DatabaseItemValue | string[];
+
+export type DatabaseFetchOptions = {
+    source: string;
+    selectors: Record<string, string | number | DatabaseFetchSelector>;
+    ignoreSensitive?: boolean;
+    sort?: DatabaseSort;
+};
+
+export type DatabaseFetchSelector = {
+    value: string | number;
+    comparison: ">" | ">=" | "<" | "<>" | "!=" | "<=" | "<=>" | "=";
+};
+
+export type DatabaseFetchMultipleOptions = DatabaseFetchOptions & {
+    offset?: number;
+    limit?: number;
+};
+
+export type DatabaseSort = {
+    order?: "ASC" | "DESC";
+    field: string;
+};
+
+export type DatabaseAddOptions = {
+    destination: string;
+    item: Record<string, DatabaseUnserializedItemValue>;
+};
+
+export type DatabaseEditOptions = {
+    destination: string;
+    selectors: Record<string, DatabaseSelectorValue>;
+    item: Record<string, DatabaseUnserializedItemValue>;
+};
+
+export type DatabaseDeleteOptions = {
+    source: string;
+    selectors: Record<string, DatabaseSelectorValue>;
 };

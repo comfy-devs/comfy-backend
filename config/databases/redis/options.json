@@ -1,0 +1,10 @@
+{
+    "id": "redis",
+    "name": "redis",
+    "type": "REDIS",
+    
+    "host": "nyananime-redis",
+    "port": 6379,
+    "user": "default",
+    "passwordEnv": "MIRACLE_REDIS_PASSWORD"
+}

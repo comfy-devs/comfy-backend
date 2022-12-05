@@ -1,0 +1,88 @@
+{
+	"id": "api",
+	"name": "api",
+	"type": "API",
+
+	"port": 9101,
+	"https": "global",
+    "cors": { "origins": ["https://nyananime.xyz", "https://localhost:8080"] },
+    "routes": [
+        { "path": "/v1/sessions/create", "type": "SESSION_CREATE" },
+        { "path": "/v1/sessions/delete", "type": "SESSION_DELETE" },
+        { "path": "/v1/users/create", "type": "AUTH_CREATE" },
+        { "path": "/v1/users/delete", "type": "USER_DELETE" },
+        {
+            "path": "/v1/users/all/fetch",
+            "type": "FETCH_MULTIPLE",
+            "singlePath": "/v1/users/fetch",
+            "table": "users",
+            "authorField": "author"
+        },
+        {
+            "path": "/v1/animes/all/fetch",
+            "type": "FETCH_MULTIPLE",
+            "singlePath": "/v1/animes/fetch",
+            "table": "animes"
+        },
+        { "path": "/v1/animes/favourite", "type": "NYAN_FAVOURITE" },
+        {
+            "path": "/v1/animes/episodes/fetch",
+            "type": "FETCH_MULTIPLE",
+            "table": "episodes",
+            "idField": "anime"
+        },
+        {
+            "path": "/v1/groups/all/fetch",
+            "type": "FETCH_MULTIPLE",
+            "singlePath": "/v1/groups/fetch",
+            "table": "groups"
+        },
+        {
+            "path": "/v1/episodes/all/fetch",
+            "type": "FETCH_MULTIPLE",
+            "singlePath": "/v1/episodes/fetch",
+            "table": "episodes"
+        },
+        {
+            "path": "/v1/episodes/segments/fetch",
+            "type": "FETCH_MULTIPLE",
+            "table": "segments",
+            "idField": "episode"
+        },
+        {
+            "path": "/v1/episodes/encodes/fetch",
+            "type": "FETCH_MULTIPLE",
+            "table": "encodes",
+            "idField": "episode"
+        },
+        {
+            "path": "/v1/episodes/comments/fetch",
+            "type": "FETCH_MULTIPLE",
+            "table": "comments",
+            "idField": "episode"
+        },
+        {
+            "path": "/v1/segments/all/fetch",
+            "type": "FETCH_MULTIPLE",
+            "singlePath": "/v1/segments/fetch",
+            "table": "segments"
+        },
+        {
+            "path": "/v1/encodes/all/fetch",
+            "type": "FETCH_MULTIPLE",
+            "singlePath": "/v1/encodes/fetch",
+            "table": "encodes"
+        },
+        {
+            "path": "/v1/comments/all/fetch",
+            "type": "FETCH_MULTIPLE",
+            "singlePath": "/v1/comments/fetch",
+            "table": "comments"
+        },
+        { "path": "/v1/notifications/send", "type": "PUSH_SEND" },
+        { "path": "/v1/notifications/subscribe", "type": "PUSH_SUBSCRIBE" },
+        { "path": "/v1/notifications/unsubscribe", "type": "PUSH_UNSUBSCRIBE" },
+        { "path": "/v1/notifications/send", "type": "PUSH_SEND" },
+        { "path": "/v1/stats/fetch", "type": "NYAN_STATS" }
+    ]
+}

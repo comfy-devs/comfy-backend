@@ -1,10 +1,10 @@
-# Nyan Anime (Back-end)
+# Miracle
 
 ## Description
-This is a back-end for Nyan Anime written with Typescript.
+This is a customizable and modular web backend, that I'm building for myself to use in my projects.
 
 ## Stack
-Frameworks: <a href="https://expressjs.com/">Express</a>  
+Frameworks: <a href="https://www.fastify.io/">Fastify</a>  
 Databases: <a href="https://www.mysql.com/">MySQL</a>, <a href="https://redis.io/">Redis</a>  
 Other: <a href="https://www.docker.com/">Docker<a>  
 
@@ -12,6 +12,7 @@ Other: <a href="https://www.docker.com/">Docker<a>
 Building is done with <code>docker-compose build</code>.  
 Running is done with <code>docker-compose up</code>.  
 Shutting down is with <code>docker-compose down</code>.
+For faster testing you can do <code>docker-compose rm -s nyananime-backend; docker-compose build; docker-compose up -d</code>.
 
 ## CLI Commands
 | Command                                 | Description                                    |
@@ -24,9 +25,9 @@ Shutting down is with <code>docker-compose down</code>.
 | `yarn typecheck`                        | Runs Typescript checker on the codebase.       |
             
 ## Contributing
-If you want a feature added or you found a bug, make a new <a href="https://github.com/nyananime-devs/nyananime-backend/issues">Issue</a>.  
-If you want to contribute, make a new <a href="https://github.com/nyananime-devs/nyananime-backend/pulls">Pull Request</a>.  
+If you want a feature added or you found a bug, make a new <a href="https://github.com/LamkasDev/miracle/issues">Issue</a>.  
+If you want to contribute, make a new <a href="https://github.com/LamkasDev/miracle/pulls">Pull Request</a>.  
 There are no guidelines or any of the sort and contributing is highly encougaraged!
 
 ## License
-Nyan Anime (Back-end) is licensed under the [GNU General Public License v3.0](https://github.com/nyananime-devs/nyananime-backend/blob/master/LICENSE).
+Miracle is licensed under the [GNU General Public License v3.0](https://github.com/LamkasDev/miracle/blob/master/LICENSE).

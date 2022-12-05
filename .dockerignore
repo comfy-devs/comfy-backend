@@ -1,7 +1,5 @@
 .docker
-!.docker/extra
 .husky
 .vscode
 build
-configs
 node_modules

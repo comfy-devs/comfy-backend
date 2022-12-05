@@ -1,10 +1,10 @@
 /* Types */
-import { FeatureOptions, StateDescriptor, Status } from "../ts/base";
-
+import { StateDescriptor, Status } from "ts/backend/base";
+import { FeatureOptions } from "./types";
 /* Local Imports */
-import Instance from "../instance";
+import Instance from "instance";
 
-abstract class Feature {
+export default abstract class Feature {
     parent: Instance;
     id: string;
     name: string;
@@ -21,5 +21,3 @@ abstract class Feature {
 
     abstract start(): Promise<void>;
 }
-
-export default Feature;

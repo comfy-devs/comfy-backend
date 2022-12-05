@@ -1,10 +1,11 @@
 # Configurations
-# configs/**/*
+# config
+config/https
 .env
 
 # Build
-build/**/*
+build
 *.log
 
 # Node non-sense
-node_modules/**/*
+node_modules
