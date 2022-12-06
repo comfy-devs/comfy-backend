@@ -6,7 +6,7 @@
 	"port": 544,
 	"https": "global",
     "cors": { "origins": ["https://nyananime.xyz", "https://localhost:8080"] },
-	"root": "/usr/src/nyananime",
+	"root": "/usr/src/nyananime/static",
 	"roots": [
 		"/",
 		"/all", "/genres", "/settings", "/download", "/status", "/login", "/register", "/account",

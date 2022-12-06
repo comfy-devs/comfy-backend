@@ -41,6 +41,8 @@ services:
     ports:
       - "9101:9101"
       - "544:544"
+      - "545:545"
+      - "546:546"
     networks:
       - nyananime-backend
     volumes:

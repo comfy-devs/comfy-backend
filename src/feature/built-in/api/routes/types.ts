@@ -11,7 +11,7 @@ export type RouteOptions = {
 };
 
 export const IDSchema = z.object({
-    id: z.string().min(32).max(32)
+    id: z.string().min(3).max(32)
 });
 export type IDSchemaType = z.infer<typeof IDSchema>;
 

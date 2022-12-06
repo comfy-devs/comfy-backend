@@ -11,14 +11,14 @@ export const DeleteSchema = IDSchema;
 export type DeleteSchemaType = z.infer<typeof DeleteSchema>;
 
 export const FetchMultipleSchema = z.object({
-    id: z.string().min(32).max(32).optional(),
+    id: z.string().min(3).max(32).optional(),
     start: z.number().nonnegative().optional(),
     end: z.number().nonnegative().optional()
 });
 export type FetchMultipleSchemaType = z.infer<typeof FetchMultipleSchema>;
 
 export const FetchStructuredArraySchema = z.object({
-    id: z.string().min(32).max(32).optional()
+    id: z.string().min(3).max(32).optional()
 });
 export type FetchStructuredArraySchemaType = z.infer<typeof FetchStructuredArraySchema>;
 
