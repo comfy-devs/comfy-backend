@@ -1,7 +1,6 @@
 /* Types */
 import { RouteOptions } from "../types";
-import { IDSchema, IDSchemaType } from "ts/common/zod/base";
-import { RequestWithSchema } from "feature/built-in/api/routes/types";
+import { IDSchema, IDSchemaType, RequestWithSchema } from "feature/built-in/api/routes/types";
 /* Local Imports */
 import APIRoute from "feature/built-in/api/routes";
 import FeatureAPI from "feature/built-in/api";

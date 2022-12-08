@@ -1,0 +1,6 @@
+{
+	"id": "stats",
+	"name": "stats",
+	"type": "STATS",
+	"roots": ["/usr/src/nyananime/image", "/usr/src/nyananime/video"]
+}

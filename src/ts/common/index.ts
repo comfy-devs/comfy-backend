@@ -37,6 +37,7 @@ type Episode = {
     pos: number;
     anime: string;
     title: string;
+    duration: number;
     views: number;
 };
 
@@ -46,7 +47,6 @@ type Encode = {
     videoBitrate: number;
     audioBitrate: number;
     size: number;
-    duration: number;
 };
 
 type SegmentType = "OP" | "EPISODE" | "ED";
@@ -60,6 +60,7 @@ type Segment = {
 };
 
 type Stats = {
+    id: string;
+    files: number;
     size: number;
-    ammount: number;
 };

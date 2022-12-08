@@ -9,6 +9,7 @@ import Feature from "feature";
 import Database from "database";
 import BuiltinDatabases, { BuiltinDatabaseType } from "database/built-in";
 import BuiltinFeatures, { BuiltinFeatureType } from "feature/built-in";
+import CustomFeatures, { CustomFeatureType } from "feature/custom";
 
 class Instance {
     id: string;
@@ -51,8 +52,13 @@ class Instance {
             if(builtinType !== undefined) {
                 feature = BuiltinFeatures[builtinType](this, options);
             } else {
-                this.state = { status: Status.ERROR, message: `${options.type} is not a valid feature type` };
-                return;
+                const customType = Object.values(CustomFeatureType).find(e => e === (options.type as CustomFeatureType));
+                if(customType !== undefined) {
+                    feature = CustomFeatures[customType](this, options);
+                } else {
+                    this.state = { status: Status.ERROR, message: `${options.type} is not a valid feature type` };
+                    return;
+                }
             }
 
             this.featureContainer.set(feature.id, feature);
