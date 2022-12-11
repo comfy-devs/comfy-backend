@@ -3,7 +3,6 @@ import { RouteAuthCreateOptions } from "feature/built-in/api/routes/built-in";
 import { DatabaseFetchOptions } from "database/types";
 import * as schemas from "./schemas";
 import { RequestWithSchema } from "feature/built-in/api/routes/types";
-import { User } from "ts/backend/base";
 /* Node Imports */
 import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
@@ -42,7 +41,8 @@ class RouteAuthCreate extends APIRoute {
                     id: randomBytes(16).toString("hex"),
                     username: req.body.username,
                     password: hashSync(req.body.password, 10),
-                    timestamp: Math.round(Date.now() / 1000)
+                    timestamp: Math.round(Date.now() / 1000),
+                    favourites: []
                 };
                 feature.database.add({ destination: "users", item: newUser });
                 delete newUser.password;

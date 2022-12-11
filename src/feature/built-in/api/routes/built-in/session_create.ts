@@ -3,7 +3,7 @@ import { DatabaseFetchOptions } from "database/types";
 import { RouteSessionCreateOptions } from "./index";
 import * as schemas from "./schemas";
 import { RequestWithSchema } from "feature/built-in/api/routes/types";
-import { Session, User } from "ts/backend/base";
+import { Session } from "ts/backend/base";
 /* Node Imports */
 import { compare } from "bcrypt";
 import { randomBytes } from "crypto";

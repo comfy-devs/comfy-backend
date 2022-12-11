@@ -12,11 +12,9 @@
         { "path": "/v1/users/create", "type": "AUTH_CREATE" },
         { "path": "/v1/users/delete", "type": "USER_DELETE" },
         {
-            "path": "/v1/users/all/fetch",
-            "type": "FETCH_MULTIPLE",
-            "singlePath": "/v1/users/fetch",
-            "table": "users",
-            "authorField": "author"
+            "path": "/v1/users/fetch",
+            "type": "FETCH",
+            "table": "users"
         },
         {
             "path": "/v1/animes/all/fetch",

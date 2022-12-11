@@ -43,10 +43,3 @@ export type Session = {
     id: string;
     user: string;
 };
-
-export type User = {
-    id: string;
-    username: string;
-    password?: string;
-    timestamp: number;
-};
