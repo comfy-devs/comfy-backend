@@ -1,6 +1,6 @@
 { 
     "id": "api",
     "name": "api",
-    "features": ["api", "stats"],
+    "features": ["api", "stats", "tracker"],
     "databases": ["mysql", "redis"]  
 }

@@ -43,15 +43,15 @@ class FeatureStats extends Feature {
             this.state = { status: Status.ERROR, message: "NO_DATABASE_FOUND" };
             return;
         }
-        const calculate = () => {
+        const calculate = async() => {
             const dirStats = this.options.roots.map(e => calculateStats(e)).reduce((acc, curr) => {
                 acc.numFiles += curr.numFiles;
                 acc.totalSize += curr.totalSize;
                 return acc;
             }, { numFiles: 0, totalSize: 0 });
-
-            const stats: Stats = { id: "default", files: dirStats.numFiles, size: dirStats.totalSize };
-            database.add({ destination: "stats", item: stats });
+            const torrents = await database.fetchMultiple<any>({ source: "torrents", selectors: {} });
+            const stats: Stats = { id: "default", files: dirStats.numFiles, size: dirStats.totalSize, torrents: torrents.length };
+            database.edit({ destination: "stats", item: stats, selectors: { id: stats.id } });
         }
 
         calculate();

@@ -64,4 +64,5 @@ type Stats = {
     id: string;
     files: number;
     size: number;
+    torrents: number;
 };

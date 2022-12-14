@@ -1,0 +1,9 @@
+{
+	"id": "tracker",
+	"name": "tracker",
+	"type": "TRACKER",
+
+	"port": 9102,
+	"https": "global",
+    "cors": { "origins": ["https://nyananime.xyz", "https://localhost:8080"] }
+}
