@@ -7,6 +7,7 @@ import { Server } from "bittorrent-tracker";
 /* Local Imports */
 import Feature from "feature";
 import Instance from "instance";
+import { readFileSync } from "fs";
 
 class FeatureTracker extends Feature {
     options: FeatureTrackerOptions;
@@ -23,8 +24,14 @@ class FeatureTracker extends Feature {
             return;
         }
 
-        const server = new Server();
-        server.listen(this.options.port);
+        const server = new Server({
+            udp: false,
+            http: {
+                key: readFileSync(`config/https/${this.options.https}/privkey.pem`),
+                cert: readFileSync(`config/https/${this.options.https}/fullchain.pem`)
+            }
+        });
+        server.listen(this.options.port, "0.0.0.0");
         server.on("error", (e) => {
             console.log(e);
         });
@@ -36,10 +43,10 @@ class FeatureTracker extends Feature {
             console.log(server);
             
             // UDP
-            const udpAddr = server.udp.address()
+            /* const udpAddr = server.udp.address()
             const udpHost = udpAddr.address
             const udpPort = udpAddr.port
-            console.log(`UDP tracker: udp://${udpHost}:${udpPort}`)
+            console.log(`UDP tracker: udp://${udpHost}:${udpPort}`) */
 
             // WS
             const wsAddr = server.ws.address()

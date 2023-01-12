@@ -4,15 +4,15 @@ import APIRoute from "feature/built-in/api/routes";
 import FeatureAPI from "feature/built-in/api";
 /* Local Imports */
 import RouteUserDelete from "./user_delete";
-import RouteNyanFavourite from "./nyan_favourite";
+import RouteComfyFavourite from "./comfy_favourite";
 
 export enum CustomRouteType {
     USER_DELETE = "USER_DELETE",
-    NYAN_FAVOURITE = "NYAN_FAVOURITE"
+    COMFY_FAVOURITE = "COMFY_FAVOURITE"
 };
 
 const routes: Record<CustomRouteType, (feature: FeatureAPI, options: RouteOptions) => APIRoute> = {
     [CustomRouteType.USER_DELETE]: (feature: FeatureAPI, options: RouteOptions) => {return new RouteUserDelete(feature, options);},
-    [CustomRouteType.NYAN_FAVOURITE]: (feature: FeatureAPI, options: RouteOptions) => {return new RouteNyanFavourite(feature, options);}
+    [CustomRouteType.COMFY_FAVOURITE]: (feature: FeatureAPI, options: RouteOptions) => {return new RouteComfyFavourite(feature, options);}
 }
 export default routes;

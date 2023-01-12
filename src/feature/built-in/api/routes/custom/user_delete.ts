@@ -36,9 +36,9 @@ class RouteUserDelete extends APIRoute {
                 feature.database.delete({ source: "users", selectors: { id: user.id } });
 
                 /* Decrement favourites on favourited shows */
-                const animes = await feature.database.fetchMultiple<Anime>({ source: "animes", selectors: { author: user.id } });
-                for(const anime of animes.filter(e => user.favourites.includes(e.id))) {
-                    feature.database.edit({ destination: "animes", selectors: { id: anime.id }, item: { favourites: anime.favourites - 1 } });
+                const shows = await feature.database.fetchMultiple<Show>({ source: "shows", selectors: { author: user.id } });
+                for(const show of shows.filter(e => user.favourites.includes(e.id))) {
+                    feature.database.edit({ destination: "shows", selectors: { id: show.id }, item: { favourites: show.favourites - 1 } });
                 }
 
                 /* Delete rest */

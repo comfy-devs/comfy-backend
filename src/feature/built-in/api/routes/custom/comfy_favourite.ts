@@ -6,7 +6,7 @@ import APIRoute from "feature/built-in/api/routes";
 import FeatureAPI from "feature/built-in/api";
 import { getSession, validateSchemaBody } from "feature/built-in/api/routes/util"
 
-class RouteNyanFavourite extends APIRoute {
+class RouteComfyFavourite extends APIRoute {
     options: RouteOptions;
 
     constructor(feature: FeatureAPI, options: RouteOptions) {
@@ -37,21 +37,21 @@ class RouteNyanFavourite extends APIRoute {
                 }
 
                 /* Get item */
-                const anime = await feature.database.fetch<Anime>({ source: "animes", selectors: { id: req.body.id } });
-                if (anime === null) {
+                const show = await feature.database.fetch<Show>({ source: "shows", selectors: { id: req.body.id } });
+                if (show === null) {
                     rep.code(404); rep.send();
                     return;
                 }
 
                 /* Edit entry */
-                if(user.favourites.includes(anime.id)) {
-                    user.favourites.splice(user.favourites.indexOf(anime.id), 1);
+                if(user.favourites.includes(show.id)) {
+                    user.favourites.splice(user.favourites.indexOf(show.id), 1);
                     feature.database.edit({ destination: "users", selectors: { id: user.id }, item: { favourites: user.favourites } });
-                    feature.database.edit({ destination: "animes", selectors: { id: anime.id }, item: { favourites: anime.favourites - 1 } });
+                    feature.database.edit({ destination: "shows", selectors: { id: show.id }, item: { favourites: show.favourites - 1 } });
                 } else {
-                    user.favourites.push(anime.id);
+                    user.favourites.push(show.id);
                     feature.database.edit({ destination: "users", selectors: { id: user.id }, item: { favourites: user.favourites } });
-                    feature.database.edit({ destination: "animes", selectors: { id: anime.id }, item: { favourites: anime.favourites + 1 } });
+                    feature.database.edit({ destination: "shows", selectors: { id: show.id }, item: { favourites: show.favourites + 1 } });
                 }
                 
                 rep.send(user);
@@ -60,4 +60,4 @@ class RouteNyanFavourite extends APIRoute {
     }
 }
 
-export default RouteNyanFavourite;
+export default RouteComfyFavourite;

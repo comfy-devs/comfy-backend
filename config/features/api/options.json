@@ -5,7 +5,7 @@
 
 	"port": 9101,
 	"https": "global",
-    "cors": { "origins": ["https://nyananime.xyz", "https://localhost:8080"] },
+    "cors": { "origins": ["https://comfy.lamkas.dev", "https://localhost:8080"] },
     "routes": [
         { "path": "/v1/sessions/create", "type": "SESSION_CREATE" },
         { "path": "/v1/sessions/delete", "type": "SESSION_DELETE" },
@@ -17,17 +17,17 @@
             "table": "users"
         },
         {
-            "path": "/v1/animes/all/fetch",
+            "path": "/v1/shows/all/fetch",
             "type": "FETCH_MULTIPLE",
-            "singlePath": "/v1/animes/fetch",
-            "table": "animes"
+            "singlePath": "/v1/shows/fetch",
+            "table": "shows"
         },
-        { "path": "/v1/animes/favourite", "type": "NYAN_FAVOURITE" },
+        { "path": "/v1/shows/favourite", "type": "COMFY_FAVOURITE" },
         {
-            "path": "/v1/animes/episodes/fetch",
+            "path": "/v1/shows/episodes/fetch",
             "type": "FETCH_MULTIPLE",
             "table": "episodes",
-            "idField": "anime"
+            "idField": "show"
         },
         {
             "path": "/v1/groups/all/fetch",

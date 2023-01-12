@@ -5,7 +5,7 @@
 
 	"port": 545,
 	"https": "global",
-    "cors": { "origins": ["https://nyananime.xyz", "https://localhost:8080"] },
-	"root": "/usr/src/nyananime/image",
+    "cors": { "origins": ["https://comfy.lamkas.dev", "https://localhost:8080"] },
+	"root": "/usr/src/comfy/image",
 	"roots": ["/"]
 }

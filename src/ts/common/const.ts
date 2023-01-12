@@ -1,4 +1,4 @@
-export const AnimeTypeMapping: Record<AnimeType, number> = {
+export const ShowTypeMapping: Record<ShowType, number> = {
     TV: 0,
     SPECIAL : 1,
     OVA: 2,
@@ -6,12 +6,12 @@ export const AnimeTypeMapping: Record<AnimeType, number> = {
     ONA: 4
 }
 
-export const AnimeStatusMapping: Record<AnimeStatus, number> = {
+export const ShowStatusMapping: Record<ShowStatus, number> = {
     AIRING: 0,
     FINISHED : 1
 }
 
-export const AnimeGenreMapping: Record<AnimeGenre, number> = {
+export const ShowGenreMapping: Record<ShowGenre, number> = {
     ACTION: 1,
     ADVENTURE: 2,
     COMEDY: 4,
@@ -32,20 +32,21 @@ export const AnimeGenreMapping: Record<AnimeGenre, number> = {
     THRILLER: 131072
 }
 
-export const AnimeTagMapping: Record<AnimeTag, number> = {
+export const ShowTagMapping: Record<ShowTag, number> = {
     SUBBED: 1,
     HARD_SUBBED: 2,
     DUBBED: 4
 }
 
-export const AnimeRatingMapping: Record<AnimeRating, number> = {
+export const ShowRatingMapping: Record<ShowRating, number> = {
     PG: 0,
     R: 1
 }
 
 export const EpisodeLocationMapping: Record<EpisodeLocation, number> = {
-    AKAGI: 0,
-    KAGA: 1
+    VAPOREON: 0,
+    JOLTEON: 1,
+    FLAREON: 2
 }
 
 export const SegmentTypeMapping: Record<SegmentType, number> = {

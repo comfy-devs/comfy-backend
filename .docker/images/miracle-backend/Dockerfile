@@ -14,6 +14,8 @@ RUN yarn --no-cache
 COPY . .
 RUN yarn run build
 RUN yarn remove $(cat package.json | jq -r '.devDependencies | keys | join(" ")')
+RUN sed -i '1i const https = require("https")' node_modules/bittorrent-tracker/server.js
+RUN sed -i 's/http.createServer(isObject(opts.http)/https.createServer(isObject(opts.http)/' node_modules/bittorrent-tracker/server.js
 
 # State: run
 FROM node:16-alpine

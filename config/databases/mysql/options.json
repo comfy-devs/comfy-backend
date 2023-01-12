@@ -3,17 +3,18 @@
     "name": "mysql",
     "type": "MYSQL",
     
-    "host": "nyananime-mysql",
+    "host": "comfy-mysql",
     "user": "root",
     "passwordEnv": "MIRACLE_MYSQL_PASSWORD",
-    "database": "nyananime-db",
+    "database": "comfy-db",
     "structure": {
         "users": {
             "password": { "sensitive": true },
             "favourites": { "modifier": "ARRAY" }
         },
         "episodes": {
-            "subtitles": { "modifier": "ARRAY" }
+            "subtitles": { "modifier": "ARRAY" },
+            "audio": { "modifier": "ARRAY" }
         }
     }
 }

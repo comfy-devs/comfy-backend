@@ -1,42 +1,42 @@
 services:
-  nyananime-mysql:
-    container_name: nyananime-mysql
+  comfy-mysql:
+    container_name: comfy-mysql
     image: mariadb:latest
     restart: "always"
     ports:
       - "3307:3306"
     networks:
-      - nyananime-backend
+      - comfy-backend
     volumes:
-      - nyananime-mysql:/var/lib/mysql
+      - comfy-mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: "${MIRACLE_MYSQL_PASSWORD}"
-      MYSQL_DATABASE: "nyananime-db"
+      MYSQL_DATABASE: "comfy-db"
       MYSQL_ROOT_HOST: "%"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "--silent"]
       timeout: 2s
       retries: 30
     command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
-  nyananime-redis:
-    container_name: nyananime-redis
+  comfy-redis:
+    container_name: comfy-redis
     image: redis:alpine
     restart: "always"
     ports:
       - "6380:6379"
     networks:
-      - nyananime-backend
+      - comfy-backend
     volumes:
       - .docker/volumes/miracle-redis:/usr/local/etc/redis
-      - nyananime-redis:/data
+      - comfy-redis:/data
     healthcheck:
       test: ["CMD", "redis-cli" ,"ping"]
       timeout: 2s
       retries: 30
     command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--requirepass", "$MIRACLE_REDIS_PASSWORD"]
-  nyananime-backend:
-    container_name: nyananime-backend
-    image: nyananime-backend:latest
+  comfy-backend:
+    container_name: comfy-backend
+    image: comfy-backend:latest
     restart: "always"
     ports:
       - "9101:9101"
@@ -45,10 +45,10 @@ services:
       - "545:545"
       - "546:546"
     networks:
-      - nyananime-backend
+      - comfy-backend
     volumes:
       - ./config:/usr/src/app/config
-      - ${NYANANIME_DATA_PATH}:/usr/src/nyananime
+      - ${COMFY_DATA_PATH}:/usr/src/comfy
     environment:
       MIRACLE_MYSQL_PASSWORD: "${MIRACLE_MYSQL_PASSWORD}"
       MIRACLE_REDIS_PASSWORD: "${MIRACLE_REDIS_PASSWORD}"
@@ -56,20 +56,20 @@ services:
       MIRACLE_PUSH_PRIVATE_KEY: "${MIRACLE_PUSH_PRIVATE_KEY}"
       MIRACLE_ADMIN_KEY: "${MIRACLE_ADMIN_KEY}"
     depends_on:
-      nyananime-mysql:
+      comfy-mysql:
         condition: service_healthy
     build: 
       context: ./
       dockerfile: .docker/images/miracle-backend/Dockerfile
     tty: yes
 volumes:
-  nyananime-mysql:
+  comfy-mysql:
     external: true
-  nyananime-redis:
+  comfy-redis:
     external: true
 networks:
-  nyananime-backend:
-    name: nyananime-backend
+  comfy-backend:
+    name: comfy-backend
   cute-foxgirls-internal:
     name: cute-foxgirls-internal
     external: true

@@ -2,5 +2,5 @@
 	"id": "stats",
 	"name": "stats",
 	"type": "STATS",
-	"roots": ["/usr/src/nyananime/image", "/usr/src/nyananime/video"]
+	"roots": ["/usr/src/comfy/image", "/usr/src/comfy/video"]
 }

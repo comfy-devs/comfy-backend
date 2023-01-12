@@ -3,7 +3,7 @@
     "name": "redis",
     "type": "REDIS",
     
-    "host": "nyananime-redis",
+    "host": "comfy-redis",
     "port": 6379,
     "user": "default",
     "passwordEnv": "MIRACLE_REDIS_PASSWORD"

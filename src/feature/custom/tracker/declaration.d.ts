@@ -19,13 +19,14 @@ declare module "bittorrent-tracker" {
     }
 
     export class ServerOptions {
-        interval: number;
-        trustProxy: number;
-        http: boolean | object;
-        udp: boolean | object;
-        ws: boolean | object;
-        stats: boolean;
-        filter: function;
+        interval?: number;
+        trustProxy?: number;
+        http?: boolean | object;
+        udp?: boolean | object;
+        ws?: boolean | object;
+        ssl?: object;
+        stats?: boolean;
+        filter?: function;
     }
 
     export class Server {

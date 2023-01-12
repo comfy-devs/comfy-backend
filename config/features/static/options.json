@@ -5,11 +5,11 @@
 
 	"port": 544,
 	"https": "global",
-    "cors": { "origins": ["https://nyananime.xyz", "https://localhost:8080"] },
-	"root": "/usr/src/nyananime/static",
+    "cors": { "origins": ["https://comfy.lamkas.dev", "https://localhost:8080"] },
+	"root": "/usr/src/comfy/static",
 	"roots": [
 		"/",
 		"/all", "/genres", "/settings", "/download", "/status", "/login", "/register", "/account",
-		"/animes/:animeId", "/groups/:groupId", "/episodes/:episodeId"
+		"/shows/:showId", "/groups/:groupId", "/episodes/:episodeId"
 	]
 }
