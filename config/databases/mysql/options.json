@@ -8,13 +8,16 @@
     "passwordEnv": "MIRACLE_MYSQL_PASSWORD",
     "database": "comfy-db",
     "structure": {
-        "users": {
-            "password": { "sensitive": true },
-            "favourites": { "modifier": "ARRAY" }
-        },
         "episodes": {
             "subtitles": { "modifier": "ARRAY" },
             "audio": { "modifier": "ARRAY" }
+        },
+        "shows": {
+            "altTitles": { "modifier": "ARRAY" }
+        },
+        "users": {
+            "password": { "sensitive": true },
+            "favourites": { "modifier": "ARRAY" }
         }
     }
 }
