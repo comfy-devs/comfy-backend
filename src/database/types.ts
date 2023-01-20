@@ -48,3 +48,8 @@ export type DatabaseDeleteOptions = {
     source: string;
     selectors: Record<string, DatabaseSelectorValue>;
 };
+
+export type DatabaseCountOptions = {
+    source: string;
+    selectors: Record<string, DatabaseSelectorValue>;
+};

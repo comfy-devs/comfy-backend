@@ -57,6 +57,10 @@ class DatabaseRedis extends Database {
         await this.connection.del(`${options.source}.${options.selectors.id}`);
         return 1;
     }
+    
+    async count(options: baseTypes.DatabaseCountOptions): Promise<number> {
+        return 0;
+    }
 
     async set(table: string, item: Record<string, baseTypes.DatabaseUnserializedItemValue>) {
         const multi = this.connection.multi();

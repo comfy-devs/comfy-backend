@@ -83,6 +83,13 @@
             "singlePath": "/v1/stats/fetch",
             "table": "stats"
         },
+        { "path": "/v1/jobs/set", "type": "COMFY_JOBS" },
+        {
+            "path": "/v1/jobs/all/fetch",
+            "type": "FETCH_MULTIPLE",
+            "singlePath": "/v1/jobs/fetch",
+            "table": "jobs"
+        },
         { "path": "/v1/notifications/send", "type": "PUSH_SEND" },
         { "path": "/v1/notifications/subscribe", "type": "PUSH_SUBSCRIBE" },
         { "path": "/v1/notifications/unsubscribe", "type": "PUSH_UNSUBSCRIBE" },

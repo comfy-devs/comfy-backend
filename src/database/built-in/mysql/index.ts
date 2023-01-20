@@ -137,6 +137,22 @@ class DatabaseMySQL extends Database {
         }
     }
 
+    async count(options: baseTypes.DatabaseCountOptions): Promise<number> {
+        try {
+            if (this.connection === undefined) {
+                return -1;
+            }
+            const values = this.selectorsToData(options.selectors);
+            const items: [any, FieldPacket[]] = await this.connection.execute(`SELECT COUNT(*) AS id_count FROM \`${options.source}\` ${this.selectorsToSyntax(options.selectors)}`, values);
+            return items[0][0].id_count;
+        } catch(e) {
+            console.error("Error trying to count items:");
+            console.log(options);
+            console.error(e);
+            throw e;
+        }
+    }
+
     selectorsToSyntax(selectors: Record<string, baseTypes.DatabaseSelectorValue>): string {
         const list = Object.keys(selectors);
         if (list.length > 0) {

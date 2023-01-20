@@ -123,5 +123,9 @@ type Stats = {
     id: string;
     files: number;
     size: number;
+
+    users: number;
+    shows: number;
+    episodes: number;
     torrents: number;
 };

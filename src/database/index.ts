@@ -25,4 +25,5 @@ export default abstract class Database {
     abstract add(options: types.DatabaseAddOptions): Promise<void>;
     abstract edit(options: types.DatabaseEditOptions): Promise<void>;
     abstract delete(options: types.DatabaseDeleteOptions): Promise<number>;
+    abstract count(options: types.DatabaseCountOptions): Promise<number>;
 }

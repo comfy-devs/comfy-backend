@@ -49,9 +49,21 @@ class FeatureStats extends Feature {
                 acc.totalSize += curr.totalSize;
                 return acc;
             }, { numFiles: 0, totalSize: 0 });
-            const torrents = await database.fetchMultiple<any>({ source: "torrents", selectors: {} });
-            const stats: Stats = { id: "default", files: dirStats.numFiles, size: dirStats.totalSize, torrents: torrents.length };
-            database.edit({ destination: "stats", item: stats, selectors: { id: stats.id } });
+            const stats: Stats = {
+                id: "default",
+                files: dirStats.numFiles,
+                size: dirStats.totalSize,
+                users: await database.count({ source: "users", selectors: {} }),
+                shows: await database.count({ source: "shows", selectors: {} }),
+                episodes: await database.count({ source: "episodes", selectors: {} }),
+                torrents: await database.count({ source: "torrents", selectors: {} })
+            };
+            
+            database.edit({
+                destination: "stats",
+                item: stats,
+                selectors: { id: stats.id }
+            });
         }
 
         calculate();
